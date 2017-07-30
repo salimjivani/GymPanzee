@@ -13,6 +13,16 @@ namespace GymPanzee.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult InsertUsers(string username, string password)
+        {
+            GympanzeeDBDataContext users = new GympanzeeDBDataContext();
+
+            users.insertUsers(username, password);
+
+            return View();
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
