@@ -1,17 +1,31 @@
-﻿@{
-    ViewBag.Title = "Contact";
-}
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+﻿
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    function onSignIn(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        var login = {};
+        login.username = profile.getEmail();
+        login.profileid = profile.getId();
+        login.name = profile.getName();
+        login.image = profile.getImageUrl();
+        console.log(login);
+    }
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+    $(".g-sign2").click(function () {
+        alert("hello)");
+    });
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+</script>
+
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+            <div class="col-md-4"></div>
+                <meta name="google-signin-client_id" content="735833674115-8utnfgiuqhpsnf4gt5mtp06okdkr324g.apps.googleusercontent.com">
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            </div>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+

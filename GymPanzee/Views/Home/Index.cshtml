@@ -3,32 +3,122 @@
 }
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script>
-    $(document).ready(function () {
-        $("#btnsave").click(function () {
-            $.ajax(
-                {
-                    type: "POST", //HTTP POST Method  
-                    url: "Home/AddEmployee", // Controller/View   
-                    data: { //Passing data  
-                        username: $("#username").val(), //Reading text box values using Jquery   
-                        password: $("#password").val()
-                    }
-
-                });
-
-        });
-    }); 
+    var excercises = {};
+    //Exercise List
+    //$("#codemaint").ready(function () {
+    $.ajax({
+        url: "/Home/InsertUsers",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        type: "POST",
+        data: "data",
+        success: function (json) {
+            console.log(json);
+            excercises = json;
+        },
+        error: function () {
+            console.log("ERROR");
+        }
+    });
+    //}); -- end of function 
+    //alert(excercises.length);
 
 </script>
 
-<div class="row">
-    <div class="col-md-4">
-        <label>Username : </label><input type="text" name="username" id="username"/>
+    <div class="row">
+        <div class="col-md-4" id="exercises">
+            <label>Workout</label>
+            <select id="exercisemachine">
+                <option>--Choose Workout--</option>
+            </select>
+        </div>
+        <div class="col-md-4" id="exercises">
+            <label>Reps : </label><input type="number" id="reps" name="reps" />
+        </div>
+        <div class="col-md-4" id="exercises">
+            <label>Weights : </label><input type="number" id="weights" name="weights" />
+        </div>
+        <div class="col-md-4" id="exercises">
+            <label>Time (in mins) : </label><input type="number" id="time" name="time" />
+        </div>
+        <div class="col-md-4" id="exercises">
+            <label>Notes : </label>
+            <select id="other">
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+            </select>
+        </div>
     </div>
-    <div class="col-md-4">
-        <label>Password : </label><input type="text" name="password" id="password"/>
+
+    <div class="row">
+        <div class="col-md-12">
+            <button id="submit" class="btn-success">Submit</button>
+        </div>
     </div>
-    <div class="col-md-4">
-        <input class="btn-default" id="btnsave" type="button" value="save" />
+
+    <div class="row">
+        <div class="col-md-12" id="previous">
+        </div>
     </div>
-</div>
+
+<script>
+
+    //drop down for exercises
+    for (x = 0; x < excercises.length; x++)
+    {
+        $("#exercises > #exercisemachine").append($("<option value='" + excercises[x].IDjson + "'>" + excercises[x].Typejson + "</option>"));
+    };
+
+    //Gather previous workout data
+    $('#exercisemachine').change(function () {
+        var jsonactivity = {};
+        jsonactivity.User = 1;
+        jsonactivity.Machine = $('#exercisemachine').val();
+
+        $.ajax({
+            url: "/Home/Activities",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            type: "POST",
+            data: JSON.stringify(jsonactivity),
+            success: function (json) {
+                //console.log(json);
+                $("#previous").html("<table><tr><td>It was: </td><td>" + json[0].Other + "</td></tr><tr><td>Reps:</td><td>" + json[0].Reps + "</td></tr><tr><td>Weights:</td><td>" + json[0].Weights + " lbs</td></tr><tr><td>Time:</td><td>" + json[0].Time + " mins</td></tr></table>");
+            },
+            error: function () {
+                console.log("ERROR");
+            }
+        });
+    });
+
+    //insert activites
+    $("#submit").click(function () {
+        var InsertActivtyData = { 'userids': 1, 'facilityids': 1, 'exercisemachineids': $('#exercisemachine').val(), 'repss': $('#reps').val(), 'weightss': $('#weights').val(), 'time': $('#time').val(), 'others': $('#other').val()};
+        InsertActivtyData = JSON.stringify(InsertActivtyData);
+
+        console.log(InsertActivtyData);
+        $.ajax({
+            url: "/Home/InsertActivities",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            type: "POST",
+            data: InsertActivtyData,
+            success: function (json) {
+                console.log(json);
+            },
+            error: function () {
+                console.log("ERROR");
+            }
+        });
+        $('#exercisemachine').val('--Choose Workout--');
+        $('#reps').val('');
+        $('#weights').val('');
+        $('#time').val('');
+        $('#other').val('Easy');
+    });
+
+</script>

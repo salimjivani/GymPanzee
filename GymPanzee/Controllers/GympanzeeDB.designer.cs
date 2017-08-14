@@ -123,6 +123,13 @@ namespace GymPanzee.Controllers
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), users, password);
 			return ((int)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.insertactivity")]
+		public int insertactivity([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> userid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> facilityid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> exercisemachineid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> reps, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> weights, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> time, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(MAX)")] string other)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userid, facilityid, exercisemachineid, reps, weights, time, other);
+			return ((int)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Activity")]

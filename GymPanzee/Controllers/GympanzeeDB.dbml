@@ -54,4 +54,14 @@
     <Parameter Name="Password" Parameter="password" Type="System.String" DbType="VarChar(255)" />
     <Return Type="System.Int32" />
   </Function>
+  <Function Name="dbo.insertactivity" Method="insertactivity">
+    <Parameter Name="userid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="facilityid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="exercisemachineid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="reps" Type="System.Int32" DbType="Int" />
+    <Parameter Name="weights" Type="System.Int32" DbType="Int" />
+    <Parameter Name="time" Type="System.Int32" DbType="Int" />
+    <Parameter Name="other" Type="System.String" DbType="VarChar(MAX)" />
+    <Return Type="System.Int32" />
+  </Function>
 </Database>
