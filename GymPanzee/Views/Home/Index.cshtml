@@ -3,6 +3,22 @@
 }
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script>
+    //Cookies Creation
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    //alert(getParameterByName('id'));
+    //document.cookie = 'id=' + getParameterByName('id');
+    console.log(document.cookie);
+   
+
     var excercises = {};
     //Exercise List
     //$("#codemaint").ready(function () {
@@ -97,7 +113,7 @@
 
     //insert activites
     $("#submit").click(function () {
-        var InsertActivtyData = { 'userids': 1, 'facilityids': 1, 'exercisemachineids': $('#exercisemachine').val(), 'repss': $('#reps').val(), 'weightss': $('#weights').val(), 'time': $('#time').val(), 'others': $('#other').val()};
+        var InsertActivtyData = { 'UserID': 1, 'FacilityID': 1, 'ExerciseMachineID': $('#exercisemachine').val(), 'Reps': $('#reps').val(), 'Weights': $('#weights').val(), 'Time': $('#time').val(), 'Other': $('#other').val()};
         InsertActivtyData = JSON.stringify(InsertActivtyData);
 
         console.log(InsertActivtyData);

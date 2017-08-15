@@ -23,9 +23,10 @@ namespace GymPanzee.Models
         public string others { get; set; }
     }
 
-    public class PreviousActivity
+    public class Activity
     {
         public int? Userid { get; set; }
+        public int? FacilityID { get; set; }
         public int? ExerciseMachineID { get; set; }
         public int? Reps { get; set; }
         public int? Weights { get; set; }

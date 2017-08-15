@@ -40,11 +40,11 @@ namespace GymPanzee.Controllers
         }
         
         [HttpPost]
-        public JsonResult InsertActivities(InsertActivtyData model)
+        public JsonResult InsertActivities(Activity model)
         {
             GympanzeeDBDataContext insertactivitiesDB = new GympanzeeDBDataContext();
 
-            insertactivitiesDB.insertactivity(model.userids, model.facilityids, model.exercisemachineids, model.repss, model.weightss, model.time, model.others);
+            insertactivitiesDB.insertactivity(model.UserID, model.FacilityID, model.ExerciseMachineID, model.Reps, model.Weights, model.Time, model.Other);
 
             return Json("saved", JsonRequestBehavior.AllowGet);
         }
@@ -57,15 +57,15 @@ namespace GymPanzee.Controllers
 
             var ActivityDataSet = (from a in Pastactivity.Activities where a.UserID == User && a.ExerciseMachineID == Machine orderby a.Date descending select new { a.UserID, a.ExerciseMachineID, a.FacilityID, a.Reps, a.Weights, a.Time, a.Other}).ToList();
 
-            var PrevActivity = new List<PreviousActivity>();
+            var PrevActivity = new List<Activity>();
 
             foreach (var a in ActivityDataSet)
             {
-                PreviousActivity PreviousActivityjson = new PreviousActivity()
+                Activity PreviousActivityjson = new Activity()
                 {
                     Other = a.Other,
                     ExerciseMachineID = a.ExerciseMachineID,
-                    Userid = a.UserID,
+                    UserID = a.UserID,
                     Reps = a.Reps,
                     Weights = a.Weights,
                     Time = a.Time
