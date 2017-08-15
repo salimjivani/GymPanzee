@@ -59,8 +59,9 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12" id="previous">
-        </div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4" id="previous"></div>
+        <div class="col-md-4"></div>
     </div>
 
 <script>
@@ -86,7 +87,7 @@
             data: JSON.stringify(jsonactivity),
             success: function (json) {
                 //console.log(json);
-                $("#previous").html("<table><tr><td>It was: </td><td>" + json[0].Other + "</td></tr><tr><td>Reps:</td><td>" + json[0].Reps + "</td></tr><tr><td>Weights:</td><td>" + json[0].Weights + " lbs</td></tr><tr><td>Time:</td><td>" + json[0].Time + " mins</td></tr></table>");
+                $("#previous").html("<h3><ul>Previous</ul></h3><table><tr><td>It was: </td><td>" + json[0].Other + "</td></tr><tr><td>Reps:</td><td>" + json[0].Reps + "</td></tr><tr><td>Weights:</td><td>" + json[0].Weights + " lbs</td></tr><tr><td>Time:</td><td>" + json[0].Time + " mins</td></tr></table>");
             },
             error: function () {
                 console.log("ERROR");
