@@ -12,17 +12,6 @@ namespace GymPanzee.Models
         public string Typejson { get; set; }
     }
 
-    public class InsertActivtyData
-    {
-        public int userids { get; set; }
-        public int facilityids { get; set; }
-        public int exercisemachineids { get; set; }
-        public int repss { get; set; }
-        public int weightss { get; set; }
-        public int time { get; set; }
-        public string others { get; set; }
-    }
-
     public class Activity
     {
         public int? Userid { get; set; }
@@ -32,6 +21,7 @@ namespace GymPanzee.Models
         public int? Weights { get; set; }
         public int? Time { get; set; }
         public string Other { get; set; }
+        public DateTime Date { get; set; }
     }
 
 }

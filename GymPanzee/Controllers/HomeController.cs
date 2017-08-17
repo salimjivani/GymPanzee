@@ -68,7 +68,8 @@ namespace GymPanzee.Controllers
                     UserID = a.UserID,
                     Reps = a.Reps,
                     Weights = a.Weights,
-                    Time = a.Time
+                    Time = a.Time,
+                    Date = null
                 };
                 PrevActivity.Add(PreviousActivityjson);
             }

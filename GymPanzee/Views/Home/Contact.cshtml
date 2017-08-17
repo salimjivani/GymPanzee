@@ -14,7 +14,7 @@
 
         if (login.name)
         {
-            $('#welcome').append("<h1><a href='http://localhost:56602/home?username=" + login.name + "&id=" + login.profileid + "'>Welcome " + login.name + "</a></h1>")
+            $('#welcome').append("<h1><a href='http://localhost:56602/home?username=" + login.name + "&id=" + login.profileid + "'>Welcome <br>" + login.name + "</a></h1>")
         }
 
     };
@@ -23,13 +23,13 @@
 </script>
 
 <div class="row">
-    <div class="col-md-4"></div>
+    <div class="col-sm-4"></div>
 
-    <div class="col-md-4">
+    <div class="col-sm-4">
                 <meta name="google-signin-client_id" content="735833674115-8utnfgiuqhpsnf4gt5mtp06okdkr324g.apps.googleusercontent.com">
-                <div class="g-signin2" data-onsuccess="onSignIn"></div>
-                <div id="welcome"></div>
+                <div class="g-signin2 testing" align="center" data-onsuccess="onSignIn"></div>
+                <div id="welcome" class="text-center"></div>
     </div>
-    <div class="col-md-4"></div>
+    <div class="col-sm-4"></div>
 </div>
 
