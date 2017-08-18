@@ -78,7 +78,7 @@ namespace GymPanzee.Controllers
         }
 
 
-        public ActionResult About()
+        public ActionResult Activity()
         {
 
             return View();

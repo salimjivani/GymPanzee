@@ -1,221 +1,55 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+﻿
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
-    //Redirect
-    //document.cookie = 'id=' + getParameterByName('id');
-    if (!document.cookie) {
-        window.location = "http://localhost:56602/home/Contact";
-    }
 
-    //Cookies Creation
-    function getParameterByName(name, url) {
-        if (!url) url = window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
+    function onSignIn(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        var login = {};
+        login.username = profile.getEmail();
+        login.profileid = profile.getId();
+        login.name = profile.getName();
+        login.image = profile.getImageUrl();
+        console.log(login);
 
-    var excercises = {};
-    //Exercise List
-    //$("#codemaint").ready(function () {
-    $.ajax({
-        url: "/Home/InsertUsers",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        async: false,
-        type: "POST",
-        data: "data",
-        success: function (json) {
-            console.log(json);
-            excercises = json;
-        },
-        error: function () {
-            console.log("ERROR");
+        if (login.name)
+        {
+            $('.panel-body').append("<hr><div class='row' align='center'><a href='http://localhost:56602/home?username=" + login.name + "&id=" + login.profileid + "' class='text-center'>Welcome " + login.name + "</a></div>")
         }
-    });
-    //}); -- end of function
 
-
-</script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
-
-    <div class="row" align="center">
-        <div class="col-md-4" id="exercises">
-            <label>Workout</label>
-            <select id="exercisemachine">
-                <option>--Choose Workout--</option>
-            </select>
-        </div>
-        <div class="col-md-4" id="exercises">
-            <label>Reps : </label><input type="number" id="reps" name="reps" />
-        </div>
-        <div class="col-md-4" id="exercises">
-            <label>Weights : </label><input type="number" id="weights" name="weights" />
-        </div>
-        <div class="col-md-4" id="exercises">
-            <label>Time (in mins) : </label><input type="number" id="time" name="time" />
-        </div>
-        <div class="col-md-4" id="exercises">
-            <label>Notes : </label>
-            <select id="other">
-                <option value="Easy">Easy</option>
-                <option value="Medium">Medium</option>
-                <option value="Hard">Hard</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="row" align="center">
-        <div class="col-md-12">
-            <button id="submit" class="btn-success">Submit</button>
-        </div>
-    </div>
-
-    <div class="row" align="center">
-        <div class="col-md-4"></div>
-        <div class="col-md-4" id="previous"></div>
-        <div class="col-md-4"></div>
-    </div>
-<canvas id="myChart" width="397px" height="397px"></canvas>
-<script>
-
-    //Drop down for exercises
-    for (x = 0; x < excercises.length; x++) {
-        $("#exercises > #exercisemachine").append($("<option value='" + excercises[x].IDjson + "'>" + excercises[x].Typejson + "</option>"));
     };
 
-    //ChartJs
-    var ctx = document.getElementById("myChart").getContext('2d');
-    var hard = 'rgba(246, 8, 8, .5)';
-    var medium = 'rgba(255, 206, 86, .5)';
-    var easy = 'rgba(6, 187, 96, .5)';
-
-
-    //Gather previous workout data
-    $('#exercisemachine').change(function () {
-
-        var newchart = {
-            type: 'bar',
-            data: {
-                labels: [],
-                datasets: [
-                    {
-                        label: 'Weights',
-                        data: [],
-                        backgroundColor: [],
-                        borderColor: [],
-                        borderWidth: 1,
-                        yAxisID: 'Weights Dataset'
-                    },
-                    {
-                        label: 'Reps',
-                        data: [],
-                        type: 'line',
-                        yAxisID: 'Reps Dataset'
-                    }
-                ],
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        id: 'Weights Dataset',
-                        type: 'linear',
-                        position: 'left',
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }, {
-                        id: 'Reps Dataset',
-                        type: 'linear',
-                        position: 'right',
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        };
-
-        var jsonactivity = {};
-        jsonactivity.User = 1;
-        jsonactivity.Machine = $('#exercisemachine').val();
-
-        $.ajax({
-            url: "/Home/Activities",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            async: false,
-            type: "POST",
-            data: JSON.stringify(jsonactivity),
-            success: function (json) {
-                previousworkout = json;
-                console.log(json);
-                $("#previous").html("<h3><ul>Previous</ul></h3><table><tr><td>It was: </td><td>" + json[0].Other + "</td></tr><tr><td>Reps:</td><td>" + json[0].Reps + "</td></tr><tr><td>Weights:</td><td>" + json[0].Weights + " lbs</td></tr><tr><td>Time:</td><td>" + json[0].Time + " mins</td></tr></table>");
-
-                for (x = 0; x < json.length; x++)
-                {
-
-                    newchart.data.labels[x] = x;
-                    newchart.data.datasets[0].data[x] = json[x].Weights;
-                    newchart.data.datasets[1].data[x] = json[x].Reps;
-
-                    if (json[x].Other == "Hard") {
-                        newchart.data.datasets[0].backgroundColor[x] = hard;
-                        newchart.data.datasets[0].borderColor[x] = hard;
-                    } else if (json[x].Other == "Medium") {
-                        newchart.data.datasets[0].backgroundColor[x] = medium;
-                        newchart.data.datasets[0].borderColor[x] = medium;
-                    } else if (json[x].Other == "Easy")
-                    {
-                        newchart.data.datasets[0].backgroundColor[x] = easy;
-                        newchart.data.datasets[0].borderColor[x] = easy;
-                    }
-                    
-                }
-
-                var myChart = new Chart(ctx, newchart);
-            },
-            error: function () {
-                console.log("ERROR");
-            }
-        });
-    });
-
-
-
-    //insert activites
-    $("#submit").click(function () {
-        var InsertActivtyData = { 'UserID': 1, 'FacilityID': 1, 'ExerciseMachineID': $('#exercisemachine').val(), 'Reps': $('#reps').val(), 'Weights': $('#weights').val(), 'Time': $('#time').val(), 'Other': $('#other').val()};
-        InsertActivtyData = JSON.stringify(InsertActivtyData);
-
-        console.log(InsertActivtyData);
-        $.ajax({
-            url: "/Home/InsertActivities",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            async: false,
-            type: "POST",
-            data: InsertActivtyData,
-            success: function (json) {
-                console.log(json);
-            },
-            error: function () {
-                console.log("ERROR");
-            }
-        });
-        $('#exercisemachine').val('--Choose Workout--');
-        $('#reps').val('');
-        $('#weights').val('');
-        $('#time').val('');
-        $('#other').val('Easy');
-    });
-
+    console.log(document.cookie);
 </script>
+
+<div class="row">
+    <div class="col-sm-4"></div>
+                <meta name="google-signin-client_id" content="735833674115-8utnfgiuqhpsnf4gt5mtp06okdkr324g.apps.googleusercontent.com">
+    </div>
+    <div class="col-sm-4"></div>
+
+    <div class="container">
+        <h2>Sign In</h2>
+        <div class="panel panel-success">
+            <div class="panel-body">
+                <span><div class="g-signin2 testing" align="center" data-onsuccess="onSignIn"></div></span>
+                <br />
+                <div class="row" align="center"><span>OR</span></div>
+                <table class="table">
+                    <tr align="center">
+                        <td align="right">Email</td>
+                        <td><input type="text"/></td>
+                    </tr>
+                    <tr align="center">
+                        <td align="right">Password</td>
+                        <td><input type="password" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center"><button class="btn-success">Submit</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

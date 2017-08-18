@@ -1,0 +1,229 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+    //Redirect
+    //document.cookie = 'id=' + getParameterByName('id');
+    if (!document.cookie) {
+        window.location = "http://localhost:56602/home/Contact";
+    }
+
+    //Cookies Creation
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    var excercises = {};
+    //Exercise List
+    //$("#codemaint").ready(function () {
+    $.ajax({
+        url: "/Home/InsertUsers",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        type: "POST",
+        data: "data",
+        success: function (json) {
+            console.log(json);
+            excercises = json;
+        },
+        error: function () {
+            console.log("ERROR");
+        }
+    });
+    //}); -- end of function
+
+
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+
+    <div class="container" id="exercises">
+        <table class="table">
+            <tr>
+                <td>Workout</td>
+                <td>
+                    <select id="exercisemachine">
+                        <option>--Choose Workout--</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Weight</td>
+                <td><input type="number" id="weights" name="weights" /></td>
+            </tr>
+            <tr>
+                <td>Reps</td>
+                <td><input type="number" id="reps" name="reps" /></td>
+            </tr>
+            <tr>
+                <td>Time</td>
+                <td><input type="number" id="time" name="time" /></td>
+            </tr>
+            <tr>
+                <td>Toughness</td>
+                <td>
+                    <select id="other">
+                        <option value="Easy">Easy</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Hard">Hard</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="row" align="center">
+        <div class="col-md-12">
+            <button id="submit" class="btn-success">Submit</button>
+        </div>
+    </div>
+
+    <div class="row" align="center">
+        <div class="col-md-4"></div>
+        <div class="col-md-4" id="previous"></div>
+        <div class="col-md-4"></div>
+    </div>
+<canvas id="myChart" width="397px" height="397px"></canvas>
+<script>
+
+    //Drop down for exercises
+    for (x = 0; x < excercises.length; x++) {
+        $("#exercisemachine").append($("<option value='" + excercises[x].IDjson + "'>" + excercises[x].Typejson + "</option>"));
+    };
+
+    //ChartJs
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var hard = 'rgba(246, 8, 8, .5)';
+    var medium = 'rgba(255, 206, 86, .5)';
+    var easy = 'rgba(6, 187, 96, .5)';
+
+    var newchart = {
+        type: 'bar',
+        data: {
+            labels: [],
+            datasets: [
+                {
+                    label: 'Weights',
+                    data: [],
+                    backgroundColor: [],
+                    borderColor: [],
+                    borderWidth: 1,
+                    yAxisID: 'Weights Dataset'
+                },
+                {
+                    label: 'Reps',
+                    data: [],
+                    type: 'line',
+                    yAxisID: 'Reps Dataset'
+                }
+            ],
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    id: 'Weights Dataset',
+                    type: 'linear',
+                    position: 'left',
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }, {
+                    id: 'Reps Dataset',
+                    type: 'linear',
+                    position: 'right',
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    };
+
+    //Gather previous workout data
+    $('#exercisemachine').change(function () {
+
+        var jsonactivity = {};
+        jsonactivity.User = 1;
+        jsonactivity.Machine = $('#exercisemachine').val();
+
+        $.ajax({
+            url: "/Home/Activities",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            type: "POST",
+            data: JSON.stringify(jsonactivity),
+            success: function (json) {
+                previousworkout = json;
+                console.log(json);
+                $("#previous").html("<h3><ul>Previous</ul></h3><table><tr><td>It was: </td><td>" + json[0].Other + "</td></tr><tr><td>Reps:</td><td>" + json[0].Reps + "</td></tr><tr><td>Weights:</td><td>" + json[0].Weights + " lbs</td></tr><tr><td>Time:</td><td>" + json[0].Time + " mins</td></tr></table>");
+
+                for (x = 0; x < json.length; x++)
+                {
+
+                    newchart.data.labels[x] = x;
+                    newchart.data.datasets[0].data[x] = json[x].Weights;
+                    newchart.data.datasets[1].data[x] = json[x].Reps;
+
+                    if (json[x].Other == "Hard") {
+                        newchart.data.datasets[0].backgroundColor[x] = hard;
+                        newchart.data.datasets[0].borderColor[x] = hard;
+                    } else if (json[x].Other == "Medium") {
+                        newchart.data.datasets[0].backgroundColor[x] = medium;
+                        newchart.data.datasets[0].borderColor[x] = medium;
+                    } else if (json[x].Other == "Easy")
+                    {
+                        newchart.data.datasets[0].backgroundColor[x] = easy;
+                        newchart.data.datasets[0].borderColor[x] = easy;
+                    }
+                    
+                }
+
+                var myChart = new Chart(ctx, newchart);
+            },
+            error: function () {
+                console.log("ERROR");
+            }
+        });
+    });
+
+
+
+    //insert activites
+    $("#submit").click(function () {
+        var InsertActivtyData = { 'UserID': 1, 'FacilityID': 1, 'ExerciseMachineID': $('#exercisemachine').val(), 'Reps': $('#reps').val(), 'Weights': $('#weights').val(), 'Time': $('#time').val(), 'Other': $('#other').val()};
+        InsertActivtyData = JSON.stringify(InsertActivtyData);
+
+        console.log(InsertActivtyData);
+        $.ajax({
+            url: "/Home/InsertActivities",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            type: "POST",
+            data: InsertActivtyData,
+            success: function (json) {
+                console.log(json);
+            },
+            error: function () {
+                console.log("ERROR");
+            }
+        });
+        $('#exercisemachine').val('--Choose Workout--');
+        $('#reps').val('');
+        $('#weights').val('');
+        $('#time').val('');
+        $('#other').val('Easy');
+    });
+
+</script>
