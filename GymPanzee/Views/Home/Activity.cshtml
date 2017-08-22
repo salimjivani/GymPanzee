@@ -182,7 +182,6 @@
                 //$("#previous").html("<h3><ul>Previous</ul></h3><table><tr><td>It was: </td><td>" + json[0].Other + "</td></tr><tr><td>Reps:</td><td>" + json[0].Reps + "</td></tr><tr><td>Weights:</td><td>" + json[0].Weights + " lbs</td></tr><tr><td>Time:</td><td>" + json[0].Time + " mins</td></tr></table>");
                 for (x = 0; x < json.length; x++)
                 {
-
                     newchart.data.labels[x] = new Date(parseInt(json[0].Date.substr(6)));
                     newchart.data.datasets[0].data[x] = json[x].Weights;
                     newchart.data.datasets[1].data[x] = json[x].Reps;
