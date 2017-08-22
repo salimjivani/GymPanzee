@@ -3,13 +3,7 @@
 }
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script>
-    //Redirect
-    //document.cookie = 'id=' + getParameterByName('id');
-    if (!document.cookie) {
-        window.location = "http://localhost:56602/home/Contact";
-    }
-
-    //Cookies Creation
+    //Get URL Parameters
     function getParameterByName(name, url) {
         if (!url) url = window.location.href;
         name = name.replace(/[\[\]]/g, "\\$&");
@@ -20,11 +14,18 @@
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
+    //Redirect if not signed in
+    //document.cookie = 'id=' + getParameterByName('id');
+    if (!document.cookie) {
+        window.location = "http://localhost:56602/home";
+    } else if (getParameterByName('id')) {
+        document.cookie = "id="+ getParameterByName('id') + " username=" + getParameterByName('username') + ";expires= Thu, 7 Dec 2017 12:00:00 UTC";
+    }
+
     var excercises = {};
     //Exercise List
-    //$("#codemaint").ready(function () {
     $.ajax({
-        url: "/Home/InsertUsers",
+        url: "/Home/ExerciseMachines",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         async: false,
@@ -41,13 +42,24 @@
     //}); -- end of function
 
 
+    function onSignIn(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        var login = {};
+        login.username = profile.getEmail();
+        login.profileid = profile.getId();
+        login.name = profile.getName();
+        login.image = profile.getImageUrl();
+        console.log(login);
+    };
+
+
 </script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 
-    <div class="container" id="exercises">
+    <div class="container" id="exercises" data-onsuccess="onSignIn">
         <table class="table">
             <tr>
                 <td>Workout</td>
@@ -93,7 +105,8 @@
         <div class="col-md-4" id="previous"></div>
         <div class="col-md-4"></div>
     </div>
-<canvas id="myChart" width="397px" height="397px"></canvas>
+
+<canvas id="myChart" ></canvas>
 <script>
 
     //Drop down for exercises
@@ -166,12 +179,11 @@
             success: function (json) {
                 previousworkout = json;
                 console.log(json);
-                $("#previous").html("<h3><ul>Previous</ul></h3><table><tr><td>It was: </td><td>" + json[0].Other + "</td></tr><tr><td>Reps:</td><td>" + json[0].Reps + "</td></tr><tr><td>Weights:</td><td>" + json[0].Weights + " lbs</td></tr><tr><td>Time:</td><td>" + json[0].Time + " mins</td></tr></table>");
-
+                //$("#previous").html("<h3><ul>Previous</ul></h3><table><tr><td>It was: </td><td>" + json[0].Other + "</td></tr><tr><td>Reps:</td><td>" + json[0].Reps + "</td></tr><tr><td>Weights:</td><td>" + json[0].Weights + " lbs</td></tr><tr><td>Time:</td><td>" + json[0].Time + " mins</td></tr></table>");
                 for (x = 0; x < json.length; x++)
                 {
 
-                    newchart.data.labels[x] = x;
+                    newchart.data.labels[x] = new Date(parseInt(json[0].Date.substr(6)));
                     newchart.data.datasets[0].data[x] = json[x].Weights;
                     newchart.data.datasets[1].data[x] = json[x].Reps;
 

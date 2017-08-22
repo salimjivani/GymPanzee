@@ -17,7 +17,7 @@ namespace GymPanzee.Controllers
         }
 
         [HttpPost]
-        public JsonResult InsertUsers()
+        public JsonResult ExerciseMachines()
         {
             GympanzeeDBDataContext userstable = new GympanzeeDBDataContext();
 
@@ -55,7 +55,7 @@ namespace GymPanzee.Controllers
         {
             GympanzeeDBDataContext Pastactivity = new GympanzeeDBDataContext();
 
-            var ActivityDataSet = (from a in Pastactivity.Activities where a.UserID == User && a.ExerciseMachineID == Machine orderby a.Date descending select new { a.UserID, a.ExerciseMachineID, a.FacilityID, a.Reps, a.Weights, a.Time, a.Other}).ToList();
+            var ActivityDataSet = (from a in Pastactivity.Activities where a.UserID == User && a.ExerciseMachineID == Machine orderby a.Date descending select new { a.UserID, a.ExerciseMachineID, a.FacilityID, a.Reps, a.Weights, a.Time, a.Other, a.Date}).ToList();
 
             var PrevActivity = new List<Activity>();
 
@@ -69,7 +69,7 @@ namespace GymPanzee.Controllers
                     Reps = a.Reps,
                     Weights = a.Weights,
                     Time = a.Time,
-                    Date = null
+                    Date = a.Date
                 };
                 PrevActivity.Add(PreviousActivityjson);
             }

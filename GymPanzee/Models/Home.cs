@@ -21,7 +21,7 @@ namespace GymPanzee.Models
         public int? Weights { get; set; }
         public int? Time { get; set; }
         public string Other { get; set; }
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
     }
 
 }
