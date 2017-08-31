@@ -58,7 +58,12 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
-
+<style>
+    body {
+        background-image: url("/Content/Image/pattern-bg.png");
+    }
+</style>
+<body>
     <div class="container" id="exercises" data-onsuccess="onSignIn">
         <table class="table">
             <tr>
@@ -107,6 +112,7 @@
     </div>
 
 <canvas id="myChart" ></canvas>
+</body>
 <script>
 
     //Drop down for exercises
@@ -116,9 +122,9 @@
 
     //ChartJs
     var ctx = document.getElementById("myChart").getContext('2d');
-    var hard = 'rgba(246, 8, 8, .5)';
-    var medium = 'rgba(255, 206, 86, .5)';
-    var easy = 'rgba(6, 187, 96, .5)';
+    var hard = 'rgb(115, 14, 222, 1)';
+    var medium = 'rgb(194, 102, 255, 1)';
+    var easy = 'rgb(235, 204, 255, .5)';
 
     var newchart = {
         type: 'bar',
@@ -182,20 +188,21 @@
                 //$("#previous").html("<h3><ul>Previous</ul></h3><table><tr><td>It was: </td><td>" + json[0].Other + "</td></tr><tr><td>Reps:</td><td>" + json[0].Reps + "</td></tr><tr><td>Weights:</td><td>" + json[0].Weights + " lbs</td></tr><tr><td>Time:</td><td>" + json[0].Time + " mins</td></tr></table>");
                 for (x = 0; x < json.length; x++)
                 {
-                    newchart.data.labels[x] = new Date(parseInt(json[0].Date.substr(6)));
+                    newchart.data.labels[x] = new Date(parseInt(json[x].Date.substr(6))).getMonth() + 1 + "/" + new Date(parseInt(json[x].Date.substr(6))).getDate();
                     newchart.data.datasets[0].data[x] = json[x].Weights;
                     newchart.data.datasets[1].data[x] = json[x].Reps;
 
-                    if (json[x].Other == "Hard") {
+                    if (json[x].Other == "Hard")
+                    {
                         newchart.data.datasets[0].backgroundColor[x] = hard;
                         newchart.data.datasets[0].borderColor[x] = hard;
                     } else if (json[x].Other == "Medium") {
                         newchart.data.datasets[0].backgroundColor[x] = medium;
-                        newchart.data.datasets[0].borderColor[x] = medium;
+                        newchart.data.datasets[0].borderColor[x] = hard;
                     } else if (json[x].Other == "Easy")
                     {
-                        newchart.data.datasets[0].backgroundColor[x] = easy;
-                        newchart.data.datasets[0].borderColor[x] = easy;
+                        newchart.data.datasets[0].backgroundColor[x] = hard;
+                        newchart.data.datasets[0].borderColor[x] = hard;
                     }
                     
                 }
