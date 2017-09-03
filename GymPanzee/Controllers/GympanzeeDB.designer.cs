@@ -30,6 +30,9 @@ namespace GymPanzee.Controllers
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
+    partial void InsertActivity(Activity instance);
+    partial void UpdateActivity(Activity instance);
+    partial void DeleteActivity(Activity instance);
     partial void InsertExerciseCategory(ExerciseCategory instance);
     partial void UpdateExerciseCategory(ExerciseCategory instance);
     partial void DeleteExerciseCategory(ExerciseCategory instance);
@@ -42,13 +45,10 @@ namespace GymPanzee.Controllers
     partial void InsertUser(User instance);
     partial void UpdateUser(User instance);
     partial void DeleteUser(User instance);
-    partial void InsertActivity(Activity instance);
-    partial void UpdateActivity(Activity instance);
-    partial void DeleteActivity(Activity instance);
     #endregion
 		
 		public GympanzeeDBDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["GymPanZeeConnectionString"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["GymPanZeeConnectionString1"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -75,6 +75,14 @@ namespace GymPanzee.Controllers
 				base(connection, mappingSource)
 		{
 			OnCreated();
+		}
+		
+		public System.Data.Linq.Table<Activity> Activities
+		{
+			get
+			{
+				return this.GetTable<Activity>();
+			}
 		}
 		
 		public System.Data.Linq.Table<ExerciseCategory> ExerciseCategories
@@ -109,12 +117,11 @@ namespace GymPanzee.Controllers
 			}
 		}
 		
-		public System.Data.Linq.Table<Activity> Activities
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.insertactivity")]
+		public int insertactivity([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> userid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> facilityid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> exercisemachineid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> reps, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> weights, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> time, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(MAX)")] string other)
 		{
-			get
-			{
-				return this.GetTable<Activity>();
-			}
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userid, facilityid, exercisemachineid, reps, weights, time, other);
+			return ((int)(result.ReturnValue));
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.insertUsers")]
@@ -123,12 +130,382 @@ namespace GymPanzee.Controllers
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), users, password);
 			return ((int)(result.ReturnValue));
 		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Activity")]
+	public partial class Activity : INotifyPropertyChanging, INotifyPropertyChanged
+	{
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.insertactivity")]
-		public int insertactivity([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> userid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> facilityid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> exercisemachineid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> reps, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> weights, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> time, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(MAX)")] string other)
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private System.DateTime _Date;
+		
+		private System.Nullable<int> _UserID;
+		
+		private System.Nullable<int> _FacilityID;
+		
+		private System.Nullable<int> _ExerciseMachineID;
+		
+		private System.Nullable<int> _Reps;
+		
+		private System.Nullable<int> _Weights;
+		
+		private System.Nullable<int> _Time;
+		
+		private string _Other;
+		
+		private EntityRef<ExerciseMachine> _ExerciseMachine;
+		
+		private EntityRef<Facility> _Facility;
+		
+		private EntityRef<User> _User;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnDateChanging(System.DateTime value);
+    partial void OnDateChanged();
+    partial void OnUserIDChanging(System.Nullable<int> value);
+    partial void OnUserIDChanged();
+    partial void OnFacilityIDChanging(System.Nullable<int> value);
+    partial void OnFacilityIDChanged();
+    partial void OnExerciseMachineIDChanging(System.Nullable<int> value);
+    partial void OnExerciseMachineIDChanged();
+    partial void OnRepsChanging(System.Nullable<int> value);
+    partial void OnRepsChanged();
+    partial void OnWeightsChanging(System.Nullable<int> value);
+    partial void OnWeightsChanged();
+    partial void OnTimeChanging(System.Nullable<int> value);
+    partial void OnTimeChanged();
+    partial void OnOtherChanging(string value);
+    partial void OnOtherChanged();
+    #endregion
+		
+		public Activity()
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userid, facilityid, exercisemachineid, reps, weights, time, other);
-			return ((int)(result.ReturnValue));
+			this._ExerciseMachine = default(EntityRef<ExerciseMachine>);
+			this._Facility = default(EntityRef<Facility>);
+			this._User = default(EntityRef<User>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime NOT NULL")]
+		public System.DateTime Date
+		{
+			get
+			{
+				return this._Date;
+			}
+			set
+			{
+				if ((this._Date != value))
+				{
+					this.OnDateChanging(value);
+					this.SendPropertyChanging();
+					this._Date = value;
+					this.SendPropertyChanged("Date");
+					this.OnDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserID", DbType="Int")]
+		public System.Nullable<int> UserID
+		{
+			get
+			{
+				return this._UserID;
+			}
+			set
+			{
+				if ((this._UserID != value))
+				{
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUserIDChanging(value);
+					this.SendPropertyChanging();
+					this._UserID = value;
+					this.SendPropertyChanged("UserID");
+					this.OnUserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FacilityID", DbType="Int")]
+		public System.Nullable<int> FacilityID
+		{
+			get
+			{
+				return this._FacilityID;
+			}
+			set
+			{
+				if ((this._FacilityID != value))
+				{
+					if (this._Facility.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnFacilityIDChanging(value);
+					this.SendPropertyChanging();
+					this._FacilityID = value;
+					this.SendPropertyChanged("FacilityID");
+					this.OnFacilityIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExerciseMachineID", DbType="Int")]
+		public System.Nullable<int> ExerciseMachineID
+		{
+			get
+			{
+				return this._ExerciseMachineID;
+			}
+			set
+			{
+				if ((this._ExerciseMachineID != value))
+				{
+					if (this._ExerciseMachine.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnExerciseMachineIDChanging(value);
+					this.SendPropertyChanging();
+					this._ExerciseMachineID = value;
+					this.SendPropertyChanged("ExerciseMachineID");
+					this.OnExerciseMachineIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Reps", DbType="Int")]
+		public System.Nullable<int> Reps
+		{
+			get
+			{
+				return this._Reps;
+			}
+			set
+			{
+				if ((this._Reps != value))
+				{
+					this.OnRepsChanging(value);
+					this.SendPropertyChanging();
+					this._Reps = value;
+					this.SendPropertyChanged("Reps");
+					this.OnRepsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Weights", DbType="Int")]
+		public System.Nullable<int> Weights
+		{
+			get
+			{
+				return this._Weights;
+			}
+			set
+			{
+				if ((this._Weights != value))
+				{
+					this.OnWeightsChanging(value);
+					this.SendPropertyChanging();
+					this._Weights = value;
+					this.SendPropertyChanged("Weights");
+					this.OnWeightsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Time", DbType="Int")]
+		public System.Nullable<int> Time
+		{
+			get
+			{
+				return this._Time;
+			}
+			set
+			{
+				if ((this._Time != value))
+				{
+					this.OnTimeChanging(value);
+					this.SendPropertyChanging();
+					this._Time = value;
+					this.SendPropertyChanged("Time");
+					this.OnTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Other", DbType="VarChar(MAX)")]
+		public string Other
+		{
+			get
+			{
+				return this._Other;
+			}
+			set
+			{
+				if ((this._Other != value))
+				{
+					this.OnOtherChanging(value);
+					this.SendPropertyChanging();
+					this._Other = value;
+					this.SendPropertyChanged("Other");
+					this.OnOtherChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ExerciseMachine_Activity", Storage="_ExerciseMachine", ThisKey="ExerciseMachineID", OtherKey="ID", IsForeignKey=true)]
+		public ExerciseMachine ExerciseMachine
+		{
+			get
+			{
+				return this._ExerciseMachine.Entity;
+			}
+			set
+			{
+				ExerciseMachine previousValue = this._ExerciseMachine.Entity;
+				if (((previousValue != value) 
+							|| (this._ExerciseMachine.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ExerciseMachine.Entity = null;
+						previousValue.Activities.Remove(this);
+					}
+					this._ExerciseMachine.Entity = value;
+					if ((value != null))
+					{
+						value.Activities.Add(this);
+						this._ExerciseMachineID = value.ID;
+					}
+					else
+					{
+						this._ExerciseMachineID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("ExerciseMachine");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Facility_Activity", Storage="_Facility", ThisKey="FacilityID", OtherKey="ID", IsForeignKey=true)]
+		public Facility Facility
+		{
+			get
+			{
+				return this._Facility.Entity;
+			}
+			set
+			{
+				Facility previousValue = this._Facility.Entity;
+				if (((previousValue != value) 
+							|| (this._Facility.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Facility.Entity = null;
+						previousValue.Activities.Remove(this);
+					}
+					this._Facility.Entity = value;
+					if ((value != null))
+					{
+						value.Activities.Add(this);
+						this._FacilityID = value.ID;
+					}
+					else
+					{
+						this._FacilityID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Facility");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Activity", Storage="_User", ThisKey="UserID", OtherKey="ID", IsForeignKey=true)]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.Activities.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.Activities.Add(this);
+						this._UserID = value.ID;
+					}
+					else
+					{
+						this._UserID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	
@@ -722,383 +1099,6 @@ namespace GymPanzee.Controllers
 		{
 			this.SendPropertyChanging();
 			entity.User = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Activity")]
-	public partial class Activity : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ID;
-		
-		private System.DateTime _Date;
-		
-		private System.Nullable<int> _UserID;
-		
-		private System.Nullable<int> _FacilityID;
-		
-		private System.Nullable<int> _ExerciseMachineID;
-		
-		private System.Nullable<int> _Reps;
-		
-		private System.Nullable<int> _Weights;
-		
-		private System.Nullable<int> _Time;
-		
-		private string _Other;
-		
-		private EntityRef<ExerciseMachine> _ExerciseMachine;
-		
-		private EntityRef<Facility> _Facility;
-		
-		private EntityRef<User> _User;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIDChanging(int value);
-    partial void OnIDChanged();
-    partial void OnDateChanging(System.DateTime value);
-    partial void OnDateChanged();
-    partial void OnUserIDChanging(System.Nullable<int> value);
-    partial void OnUserIDChanged();
-    partial void OnFacilityIDChanging(System.Nullable<int> value);
-    partial void OnFacilityIDChanged();
-    partial void OnExerciseMachineIDChanging(System.Nullable<int> value);
-    partial void OnExerciseMachineIDChanged();
-    partial void OnRepsChanging(System.Nullable<int> value);
-    partial void OnRepsChanged();
-    partial void OnWeightsChanging(System.Nullable<int> value);
-    partial void OnWeightsChanged();
-    partial void OnTimeChanging(System.Nullable<int> value);
-    partial void OnTimeChanged();
-    partial void OnOtherChanging(string value);
-    partial void OnOtherChanged();
-    #endregion
-		
-		public Activity()
-		{
-			this._ExerciseMachine = default(EntityRef<ExerciseMachine>);
-			this._Facility = default(EntityRef<Facility>);
-			this._User = default(EntityRef<User>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ID
-		{
-			get
-			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this.OnIDChanging(value);
-					this.SendPropertyChanging();
-					this._ID = value;
-					this.SendPropertyChanged("ID");
-					this.OnIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime NOT NULL")]
-		public System.DateTime Date
-		{
-			get
-			{
-				return this._Date;
-			}
-			set
-			{
-				if ((this._Date != value))
-				{
-					this.OnDateChanging(value);
-					this.SendPropertyChanging();
-					this._Date = value;
-					this.SendPropertyChanged("Date");
-					this.OnDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserID", DbType="Int")]
-		public System.Nullable<int> UserID
-		{
-			get
-			{
-				return this._UserID;
-			}
-			set
-			{
-				if ((this._UserID != value))
-				{
-					if (this._User.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnUserIDChanging(value);
-					this.SendPropertyChanging();
-					this._UserID = value;
-					this.SendPropertyChanged("UserID");
-					this.OnUserIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FacilityID", DbType="Int")]
-		public System.Nullable<int> FacilityID
-		{
-			get
-			{
-				return this._FacilityID;
-			}
-			set
-			{
-				if ((this._FacilityID != value))
-				{
-					if (this._Facility.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnFacilityIDChanging(value);
-					this.SendPropertyChanging();
-					this._FacilityID = value;
-					this.SendPropertyChanged("FacilityID");
-					this.OnFacilityIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExerciseMachineID", DbType="Int")]
-		public System.Nullable<int> ExerciseMachineID
-		{
-			get
-			{
-				return this._ExerciseMachineID;
-			}
-			set
-			{
-				if ((this._ExerciseMachineID != value))
-				{
-					if (this._ExerciseMachine.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnExerciseMachineIDChanging(value);
-					this.SendPropertyChanging();
-					this._ExerciseMachineID = value;
-					this.SendPropertyChanged("ExerciseMachineID");
-					this.OnExerciseMachineIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Reps", DbType="Int")]
-		public System.Nullable<int> Reps
-		{
-			get
-			{
-				return this._Reps;
-			}
-			set
-			{
-				if ((this._Reps != value))
-				{
-					this.OnRepsChanging(value);
-					this.SendPropertyChanging();
-					this._Reps = value;
-					this.SendPropertyChanged("Reps");
-					this.OnRepsChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Weights", DbType="Int")]
-		public System.Nullable<int> Weights
-		{
-			get
-			{
-				return this._Weights;
-			}
-			set
-			{
-				if ((this._Weights != value))
-				{
-					this.OnWeightsChanging(value);
-					this.SendPropertyChanging();
-					this._Weights = value;
-					this.SendPropertyChanged("Weights");
-					this.OnWeightsChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Time", DbType="Int")]
-		public System.Nullable<int> Time
-		{
-			get
-			{
-				return this._Time;
-			}
-			set
-			{
-				if ((this._Time != value))
-				{
-					this.OnTimeChanging(value);
-					this.SendPropertyChanging();
-					this._Time = value;
-					this.SendPropertyChanged("Time");
-					this.OnTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Other", DbType="VarChar(MAX)")]
-		public string Other
-		{
-			get
-			{
-				return this._Other;
-			}
-			set
-			{
-				if ((this._Other != value))
-				{
-					this.OnOtherChanging(value);
-					this.SendPropertyChanging();
-					this._Other = value;
-					this.SendPropertyChanged("Other");
-					this.OnOtherChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ExerciseMachine_Activity", Storage="_ExerciseMachine", ThisKey="ExerciseMachineID", OtherKey="ID", IsForeignKey=true)]
-		public ExerciseMachine ExerciseMachine
-		{
-			get
-			{
-				return this._ExerciseMachine.Entity;
-			}
-			set
-			{
-				ExerciseMachine previousValue = this._ExerciseMachine.Entity;
-				if (((previousValue != value) 
-							|| (this._ExerciseMachine.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._ExerciseMachine.Entity = null;
-						previousValue.Activities.Remove(this);
-					}
-					this._ExerciseMachine.Entity = value;
-					if ((value != null))
-					{
-						value.Activities.Add(this);
-						this._ExerciseMachineID = value.ID;
-					}
-					else
-					{
-						this._ExerciseMachineID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("ExerciseMachine");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Facility_Activity", Storage="_Facility", ThisKey="FacilityID", OtherKey="ID", IsForeignKey=true)]
-		public Facility Facility
-		{
-			get
-			{
-				return this._Facility.Entity;
-			}
-			set
-			{
-				Facility previousValue = this._Facility.Entity;
-				if (((previousValue != value) 
-							|| (this._Facility.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Facility.Entity = null;
-						previousValue.Activities.Remove(this);
-					}
-					this._Facility.Entity = value;
-					if ((value != null))
-					{
-						value.Activities.Add(this);
-						this._FacilityID = value.ID;
-					}
-					else
-					{
-						this._FacilityID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Facility");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Activity", Storage="_User", ThisKey="UserID", OtherKey="ID", IsForeignKey=true)]
-		public User User
-		{
-			get
-			{
-				return this._User.Entity;
-			}
-			set
-			{
-				User previousValue = this._User.Entity;
-				if (((previousValue != value) 
-							|| (this._User.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._User.Entity = null;
-						previousValue.Activities.Remove(this);
-					}
-					this._User.Entity = value;
-					if ((value != null))
-					{
-						value.Activities.Add(this);
-						this._UserID = value.ID;
-					}
-					else
-					{
-						this._UserID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("User");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
 		}
 	}
 }

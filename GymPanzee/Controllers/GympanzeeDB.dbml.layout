@@ -2,62 +2,62 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="GympanzeeDB">
   <DataContextMoniker Name="/GympanzeeDBDataContext" />
   <nestedChildShapes>
-    <classShape Id="bfb5e79d-c6d6-4071-9a22-b40c82f61821" absoluteBounds="0.75, 1.625, 2, 1.1939925130208335">
+    <classShape Id="570526d5-17ae-406c-be81-ae4e36540544" absoluteBounds="6.25, 1, 2, 2.5401025390625005">
+      <DataClassMoniker Name="/GympanzeeDBDataContext/Activity" />
+      <nestedChildShapes>
+        <elementListCompartment Id="5d87c64a-158c-4226-9d0f-b4f455a8f79a" absoluteBounds="6.265, 1.46, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="d05e59c2-4fbb-434f-858f-333c1045a603" absoluteBounds="0.75, 1.625, 2, 1.1939925130208335">
       <DataClassMoniker Name="/GympanzeeDBDataContext/ExerciseCategory" />
       <nestedChildShapes>
-        <elementListCompartment Id="104ff689-5835-4806-b653-b23764940b9d" absoluteBounds="0.765, 2.085, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="ada2d424-1944-46d6-90a4-5c4d69176aaa" absoluteBounds="0.765, 2.085, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="c88aa83c-add7-4ac5-9c9c-732f6f2d45bb" absoluteBounds="3.5, 1.5, 2, 1.3862939453125003">
+    <classShape Id="ec9ae62e-9318-4eeb-a5bd-36abfbcf0cd0" absoluteBounds="3.5, 1.5, 2, 1.3862939453125003">
       <DataClassMoniker Name="/GympanzeeDBDataContext/ExerciseMachine" />
       <nestedChildShapes>
-        <elementListCompartment Id="7a68f3c9-8c23-4603-be39-132ae0b00f71" absoluteBounds="3.515, 1.96, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="f78d44a5-acaa-4068-83f4-d8ed3feab575" absoluteBounds="3.515, 1.96, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="edd37f19-e757-44ee-968c-c3ec07e60130" absoluteBounds="3.5, 6.5, 2, 1.5785953776041666">
+    <classShape Id="dd7916c2-9dc9-418c-b287-a613ca450add" absoluteBounds="3.5, 6.5, 2, 1.5785953776041666">
       <DataClassMoniker Name="/GympanzeeDBDataContext/Facility" />
       <nestedChildShapes>
-        <elementListCompartment Id="e18757d3-f01d-4d8d-8ef3-96beee3b8c1a" absoluteBounds="3.515, 6.96, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="597e521b-ea2f-45fc-90e6-581f621648fd" absoluteBounds="3.515, 6.96, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="23aa2e6f-7db4-4a7a-b0fb-8af306e35cda" absoluteBounds="3.5, 4.375, 2, 1.3862939453125005">
+    <classShape Id="8b459557-5521-48c5-b93c-3cad08622442" absoluteBounds="3.5, 4.375, 2, 1.3862939453125005">
       <DataClassMoniker Name="/GympanzeeDBDataContext/User" />
       <nestedChildShapes>
-        <elementListCompartment Id="43ad6b18-368a-4cce-87db-1e3d82edc991" absoluteBounds="3.515, 4.835, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="583f5106-3070-42d6-9cb0-092fdf01ddf2" absoluteBounds="3.515, 4.835, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <associationConnector edgePoints="[(5.5 : 2.19314697265625); (6.25 : 2.19314697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/GympanzeeDBDataContext/ExerciseMachine/ExerciseMachine_Activity" />
+      <nodes>
+        <classShapeMoniker Id="ec9ae62e-9318-4eeb-a5bd-36abfbcf0cd0" />
+        <classShapeMoniker Id="570526d5-17ae-406c-be81-ae4e36540544" />
+      </nodes>
+    </associationConnector>
     <associationConnector edgePoints="[(2.75 : 2.22199625651042); (3.5 : 2.22199625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/GympanzeeDBDataContext/ExerciseCategory/ExerciseCategory_ExerciseMachine" />
       <nodes>
-        <classShapeMoniker Id="bfb5e79d-c6d6-4071-9a22-b40c82f61821" />
-        <classShapeMoniker Id="c88aa83c-add7-4ac5-9c9c-732f6f2d45bb" />
+        <classShapeMoniker Id="d05e59c2-4fbb-434f-858f-333c1045a603" />
+        <classShapeMoniker Id="ec9ae62e-9318-4eeb-a5bd-36abfbcf0cd0" />
       </nodes>
     </associationConnector>
-    <classShape Id="24b1950d-edff-41a1-9eda-873516ea91e6" absoluteBounds="6.625, 2.125, 2, 2.5401025390625">
-      <DataClassMoniker Name="/GympanzeeDBDataContext/Activity" />
-      <nestedChildShapes>
-        <elementListCompartment Id="92488b1e-0039-412f-a500-12eed6575c05" absoluteBounds="6.64, 2.585, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(5.5 : 2.50564697265625); (6.625 : 2.50564697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/GympanzeeDBDataContext/ExerciseMachine/ExerciseMachine_Activity" />
-      <nodes>
-        <classShapeMoniker Id="c88aa83c-add7-4ac5-9c9c-732f6f2d45bb" />
-        <classShapeMoniker Id="24b1950d-edff-41a1-9eda-873516ea91e6" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 7.28929768880208); (7.625 : 7.28929768880208); (7.625 : 4.6651025390625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 7.28929768880208); (7.25 : 7.28929768880208); (7.25 : 3.5401025390625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/GympanzeeDBDataContext/Facility/Facility_Activity" />
       <nodes>
-        <classShapeMoniker Id="edd37f19-e757-44ee-968c-c3ec07e60130" />
-        <classShapeMoniker Id="24b1950d-edff-41a1-9eda-873516ea91e6" />
+        <classShapeMoniker Id="dd7916c2-9dc9-418c-b287-a613ca450add" />
+        <classShapeMoniker Id="570526d5-17ae-406c-be81-ae4e36540544" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 5.2444507421875); (7.0937475 : 5.2444507421875); (7.0937475 : 4.6651025390625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 5.06814697265625); (6.7187475 : 5.06814697265625); (6.7187475 : 3.5401025390625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/GympanzeeDBDataContext/User/User_Activity" />
       <nodes>
-        <classShapeMoniker Id="23aa2e6f-7db4-4a7a-b0fb-8af306e35cda" />
-        <classShapeMoniker Id="24b1950d-edff-41a1-9eda-873516ea91e6" />
+        <classShapeMoniker Id="8b459557-5521-48c5-b93c-3cad08622442" />
+        <classShapeMoniker Id="570526d5-17ae-406c-be81-ae4e36540544" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

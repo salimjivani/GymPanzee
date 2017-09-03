@@ -175,6 +175,7 @@
     <None Include="Controllers\GympanzeeDB.dbml.layout">
       <DependentUpon>GympanzeeDB.dbml</DependentUpon>
     </None>
+    <None Include="Properties\PublishProfiles\GymPanzee20170902080932 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
