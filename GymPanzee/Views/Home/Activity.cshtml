@@ -17,7 +17,8 @@
     //Redirect if not signed in
     //document.cookie = 'id=' + getParameterByName('id');
     if (!document.cookie) {
-        window.location = "http://localhost:56602/home";
+        //window.location = "http://localhost:56602/home"; //Development
+        //window.location = "http://gympanzee20170902080932.azurewebsites.net"; //Production
     } else if (getParameterByName('id')) {
         document.cookie = "id="+ getParameterByName('id') + " username=" + getParameterByName('username') + ";expires= Thu, 7 Dec 2017 12:00:00 UTC";
     }
