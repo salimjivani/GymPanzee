@@ -62,6 +62,6 @@ C:\Users\salim\onedrive\documents\visual studio 2017\Projects\GymPanzee\GymPanze
 C:\Users\salim\onedrive\documents\visual studio 2017\Projects\GymPanzee\GymPanzee\bin\Microsoft.AI.ServerTelemetryChannel.xml
 C:\Users\salim\onedrive\documents\visual studio 2017\Projects\GymPanzee\GymPanzee\bin\Microsoft.AI.WindowsServer.xml
 C:\Users\salim\onedrive\documents\visual studio 2017\Projects\GymPanzee\GymPanzee\bin\Microsoft.AI.Web.xml
-C:\Users\salim\onedrive\documents\visual studio 2017\Projects\GymPanzee\GymPanzee\obj\Release\GymPanzee.csprojResolveAssemblyReference.cache
 C:\Users\salim\onedrive\documents\visual studio 2017\Projects\GymPanzee\GymPanzee\obj\Release\GymPanzee.dll
 C:\Users\salim\onedrive\documents\visual studio 2017\Projects\GymPanzee\GymPanzee\obj\Release\GymPanzee.pdb
+C:\Users\salim\onedrive\documents\visual studio 2017\Projects\GymPanzee\GymPanzee\obj\Release\GymPanzee.csprojResolveAssemblyReference.cache

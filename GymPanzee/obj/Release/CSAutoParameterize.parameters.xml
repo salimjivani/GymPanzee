@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<parameters>
-  <parameter name="GymPanZeeConnectionString-Web.config Connection String" description="GymPanZeeConnectionString Connection String used in web.config by the application to access the database." defaultValue="Data Source=DESKTOP-JVLUFOT\SQLEXPRESS;Initial Catalog=GymPanZee;Integrated Security=True" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="C:\\Users\\salim\\onedrive\\documents\\visual\ studio\ 2017\\Projects\\GymPanzee\\GymPanzee\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='GymPanZeeConnectionString']/@connectionString" />
-  </parameter>
-  <parameter name="GymPanZeeConnectionString1-Web.config Connection String" description="GymPanZeeConnectionString1 Connection String used in web.config by the application to access the database." defaultValue="Data Source=52.173.135.39;Initial Catalog=GymPanZee;Persist Security Info=True;User ID=ClientBilling;Password=Northface127!" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="C:\\Users\\salim\\onedrive\\documents\\visual\ studio\ 2017\\Projects\\GymPanzee\\GymPanzee\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='GymPanZeeConnectionString1']/@connectionString" />
-  </parameter>
-</parameters>

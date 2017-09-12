@@ -1,7 +1,6 @@
 ﻿@{
     ViewBag.Title = "Activity";
 }
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script>
     //Get URL Parameters
     function getParameterByName(name, url) {
@@ -14,14 +13,11 @@
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
-    //Redirect if not signed in
-    //document.cookie = 'id=' + getParameterByName('id');
-    if (!document.cookie) {
-        //window.location = "http://localhost:56602/home"; //Development
-        //window.location = "http://gympanzee20170902080932.azurewebsites.net"; //Production
-    } else if (getParameterByName('id')) {
-        document.cookie = "id="+ getParameterByName('id') + " username=" + getParameterByName('username') + ";expires= Thu, 7 Dec 2017 12:00:00 UTC";
-    }
+    $.cookie("username", getParameterByName('username'), { exercise: 10 });
+    var username = $.cookie("username");
+    var facilityid = getParameterByName('facility');
+    var exercisemachineid = getParameterByName('exercisemachineid');
+
 
     var excercises = {};
     //Exercise List
@@ -63,6 +59,9 @@
     body {
         background-image: url("/Content/Image/pattern-bg.png");
     }
+    #submit {
+        background-color: blueviolet;
+    }
 </style>
 <body>
     <div class="container" id="exercises" data-onsuccess="onSignIn">
@@ -103,7 +102,7 @@
     <div class="row" align="center">
         <div class="col-md-12">
             <div class="form-group">
-                <button type="button" class="btn btn-success btn-block">SUBMIT</button>
+                <button id="submit" type="button" class="btn btn-success btn-block">SUBMIT</button>
             </div>
         </div>
     </div>
@@ -222,7 +221,7 @@
 
     //insert activites
     $("#submit").click(function () {
-        var InsertActivtyData = { 'UserID': 1, 'FacilityID': 1, 'ExerciseMachineID': $('#exercisemachine').val(), 'Reps': $('#reps').val(), 'Weights': $('#weights').val(), 'Time': $('#time').val(), 'Other': $('#other').val()};
+        var InsertActivtyData = { 'UserID': username, 'FacilityID': facilityid, 'ExerciseMachineID': exercisemachineid, 'Reps': $('#reps').val(), 'Weights': $('#weights').val(), 'Time': $('#time').val(), 'Other': $('#other').val()};
         InsertActivtyData = JSON.stringify(InsertActivtyData);
 
         console.log(InsertActivtyData);

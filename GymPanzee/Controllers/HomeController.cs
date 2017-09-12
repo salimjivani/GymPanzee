@@ -51,7 +51,6 @@ namespace GymPanzee.Controllers
 
         [HttpPost]
         public JsonResult Activities(int User, int Machine)
-        //public JsonResult Activities()
         {
             GympanzeeDBDataContext Pastactivity = new GympanzeeDBDataContext();
 
