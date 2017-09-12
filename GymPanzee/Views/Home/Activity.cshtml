@@ -68,10 +68,7 @@
         <table class="table">
             <tr>
                 <td>Workout</td>
-                <td>
-                    <select id="exercisemachine">
-                        <option>--Choose Workout--</option>
-                    </select>
+                <td id="exercisemachine">
                 </td>
             </tr>
             <tr>
@@ -118,9 +115,12 @@
 <script>
 
     //Drop down for exercises
+/*
     for (x = 0; x < excercises.length; x++) {
         $("#exercisemachine").append($("<option value='" + excercises[x].IDjson + "'>" + excercises[x].Typejson + "</option>"));
     };
+*/
+    $("#exercisemachine").append($("<span value='" + excercises[exercisemachineid-1].IDjson + "'>" + excercises[exercisemachineid-1].Typejson + "</span>"));
 
     //ChartJs
     var ctx = document.getElementById("myChart").getContext('2d');
@@ -171,11 +171,11 @@
     };
 
     //Gather previous workout data
-    $('#exercisemachine').change(function () {
+    //$('#exercisemachine').change(function () {
 
         var jsonactivity = {};
-        jsonactivity.User = 1;
-        jsonactivity.Machine = $('#exercisemachine').val();
+        jsonactivity.User = username;
+        jsonactivity.Machine = exercisemachineid;
 
         $.ajax({
             url: "/Home/Activities",
@@ -215,7 +215,7 @@
                 console.log("ERROR");
             }
         });
-    });
+    //});
 
 
 
