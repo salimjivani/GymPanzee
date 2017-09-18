@@ -64,4 +64,8 @@
     <Parameter Name="Password" Parameter="password" Type="System.String" DbType="VarChar(255)" />
     <Return Type="System.Int32" />
   </Function>
+  <Function Name="dbo.Login" Method="Login">
+    <Parameter Name="Username" Parameter="username" Type="System.String" DbType="VarChar(255)" />
+    <Return Type="System.Int32" />
+  </Function>
 </Database>

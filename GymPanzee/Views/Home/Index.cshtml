@@ -12,6 +12,7 @@
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
+    //Get UserID
     function onSignIn(googleUser) {
         var profile = googleUser.getBasicProfile();
         var login = {};
@@ -21,21 +22,42 @@
         login.image = profile.getImageUrl();
         console.log(login);
 
-        //Redirects User if they have already logged in
-        if (login.name)
-        {
-            //$('#user').html("<hr><div class='row' align='center'><img src='" + login.image + "' /></div><div class='row' align='center'><h3><a href='http://localhost:56602/home/Activity?username=" + login.name + "&id=" + login.profileid + "' class='text-center'>Welcome " + login.name + "</a></h3></div>") //Development
-            $('#user').html("<hr><div class='row' align='center'><img src='" + login.image + "' /></div><div class='row' align='center'><h3><a href='http://gympanzee20170902080932.azurewebsites.net/home/Activity?username=" + login.name + "&id=" + login.profileid + "' class='text-center'>Welcome " + login.name + "</a></h3></div>") //Production
-            //window.location = "http://localhost:56602/home/Activity?username=" + login.profileid;
-        }
+        $.ajax({
+            url: "/Home/GetUserID",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            type: "POST",
+            data: JSON.stringify({ useremail: login.username }),
+            success: function (json) {
+                //console.log(json);
+
+                //Redirects User if they have already logged in
+                if (login.name) {
+                    //$('#user').html("<hr><div class='row' align='center'><img src='" + login.image + "' /></div><div class='row' align='center'><h3><a href='http://localhost:56602/home/Activity?username=" + login.name + "&id=" + login.profileid + "' class='text-center'>Welcome " + login.name + "</a></h3></div>") //Development
+                    $('#user').html("<hr><div class='row' align='center'><img src='" + login.image + "' /></div><div class='row' align='center'><h3><a href='http://gympanzee20170902080932.azurewebsites.net/home/Activity?username=" + json.UserID + "&id=" + login.profileid + "' class='text-center'>Welcome " + login.name + "</a></h3></div>") //Production
+                    //window.location = "http://localhost:56602/home/Activity?username=" + login.profileid;
+                }
+            },
+            error: function () {
+                console.log("ERROR");
+            }
+        });
+
     };
 
+
 </script>
+<style>
+    body, .panel {
+        background-image: url("/Content/Image/pattern-bg.png");
+    }
+</style>
 
 
     <div class="row">
         <div class="col-sm-4"></div>
-                    <meta name="google-signin-client_id" content="735833674115-8utnfgiuqhpsnf4gt5mtp06okdkr324g.apps.googleusercontent.com">
+            <meta name="google-signin-client_id" content="735833674115-8utnfgiuqhpsnf4gt5mtp06okdkr324g.apps.googleusercontent.com">
         </div>
         <div class="col-sm-4"></div>
 
@@ -44,24 +66,9 @@
             <div class="panel panel-success">
                 <div class="panel-body">
                     <div class="g-signin2 testing" align="center" data-onsuccess="onSignIn"></div>
-                    <br />
-                    <div class="row" align="center"><span>OR</span></div>
-                    <table class="table">
-                        <tr align="center">
-                            <td align="right">Email</td>
-                            <td><input type="text"/></td>
-                        </tr>
-                        <tr align="center">
-                            <td align="right">Password</td>
-                            <td><input type="password" /></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" align="center"><button class="btn-success">Submit</button></td>
-                        </tr>
-                    </table>
                     <div id="user"></div>
                 </div>
             </div>
         </div>
-    </div>
+
 

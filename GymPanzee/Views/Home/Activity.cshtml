@@ -13,10 +13,15 @@
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
-    $.cookie("username", getParameterByName('username'), { exercise: 10 });
-    var username = $.cookie("username");
     var facilityid = getParameterByName('facility');
     var exercisemachineid = getParameterByName('exercisemachineid');
+   
+    //Login Logic
+    $.cookie("username", getParameterByName('username'), { expires: 10 });
+    var username = $.cookie("username");
+
+
+
 
 
     var excercises = {};

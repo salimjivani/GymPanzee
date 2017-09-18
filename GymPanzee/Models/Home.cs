@@ -24,4 +24,5 @@ namespace GymPanzee.Models
         public string Date { get; set; }
     }
 
+
 }

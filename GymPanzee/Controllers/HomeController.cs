@@ -76,6 +76,23 @@ namespace GymPanzee.Controllers
             return Json(PrevActivity, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public JsonResult GetUserID(string useremail)
+        {
+            GympanzeeDBDataContext Table = new GympanzeeDBDataContext();
+
+            Table.Login(useremail);
+
+            var UsersTable = (from a in Table.Users where a.Username == useremail select new { a.ID }).ToList();
+
+            var Username = new Activity()
+            {
+                UserID = 1
+            };
+
+            return Json(Username, JsonRequestBehavior.AllowGet);
+        }
+
 
         public ActionResult Activity()
         {
