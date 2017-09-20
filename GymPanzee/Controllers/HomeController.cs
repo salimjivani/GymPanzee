@@ -83,11 +83,11 @@ namespace GymPanzee.Controllers
 
             Table.Login(useremail);
 
-            var UsersTable = (from a in Table.Users where a.Username == useremail select new { a.ID }).ToList();
+            var UsersTable = (from a in Table.Users where a.Username == useremail select new { a.ID }).FirstOrDefault();
 
             var Username = new Activity()
             {
-                UserID = 1
+                UserID = UsersTable.ID
             };
 
             return Json(Username, JsonRequestBehavior.AllowGet);

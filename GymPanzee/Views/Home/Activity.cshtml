@@ -15,12 +15,19 @@
 
     var facilityid = getParameterByName('facility');
     var exercisemachineid = getParameterByName('exercisemachineid');
-   
+
     //Login Logic
-    $.cookie("username", getParameterByName('username'), { expires: 10 });
-    var username = $.cookie("username");
+        var usernameurl = getParameterByName('username');
 
+        if (username || usernameurl == null) {
+            window.location.href = "http://localhost:56602?exercisemachineid=" + exercisemachineid + "&facility=" + facilityid;
+        } else if (!!usernameurl)
+        {
+            $.cookie('username', usernameurl, { expires: 10});
+        }
 
+        var username = $.cookie('username');
+        //alert($.cookie('username'));
 
 
 
@@ -42,19 +49,6 @@
         }
     });
     //}); -- end of function
-
-
-    function onSignIn(googleUser) {
-        var profile = googleUser.getBasicProfile();
-        var login = {};
-        login.username = profile.getEmail();
-        login.profileid = profile.getId();
-        login.name = profile.getName();
-        login.image = profile.getImageUrl();
-        console.log(login);
-    };
-
-
 </script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
