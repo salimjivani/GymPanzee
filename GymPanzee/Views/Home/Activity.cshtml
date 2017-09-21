@@ -20,7 +20,7 @@
         var usernameurl = getParameterByName('username');
 
         if (username || usernameurl == null) {
-            window.location.href = "http://localhost:56602?exercisemachineid=" + exercisemachineid + "&facility=" + facilityid;
+            window.location.href = "http://gympanzee20170902080932.azurewebsites.net/?exercisemachineid=" + exercisemachineid + "&facility=" + facilityid;
         } else if (!!usernameurl)
         {
             $.cookie('username', usernameurl, { expires: 10});

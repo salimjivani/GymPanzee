@@ -38,8 +38,8 @@
 
                 //Redirects User if they have already logged in
                 if (login.name) {
-                    $('#user').html("<hr><div class='row' align='center'><img src='" + login.image + "' /></div><div class='row' align='center'><h3><a href='http://localhost:56602/home/Activity?username=" + json.UserID + "&id=" + login.profileid + "&exercisemachineid=" + exercisemachineid + "&facility=" + facilityid + "' class='text-center'>Welcome " + login.name + "</a></h3></div>") //Development
-                    //$('#user').html("<hr><div class='row' align='center'><img src='" + login.image + "' /></div><div class='row' align='center'><h3><a href='http://gympanzee20170902080932.azurewebsites.net/home/Activity?username=" + json.UserID + "&id=" + login.profileid + "' class='text-center'>Welcome " + login.name + "</a></h3></div>") //Production
+                    //$('#user').html("<hr><div class='row' align='center'><img src='" + login.image + "' /></div><div class='row' align='center'><h3><a href='http://localhost:56602/home/Activity?username=" + json.UserID + "&id=" + login.profileid + "&exercisemachineid=" + exercisemachineid + "&facility=" + facilityid + "' class='text-center'>Welcome " + login.name + "</a></h3></div>") //Development
+                    $('#user').html("<hr><div class='row' align='center'><img src='" + login.image + "' /></div><div class='row' align='center'><h3><a href='http://gympanzee20170902080932.azurewebsites.net/home/Activity?username=" + json.UserID + "&id=" + login.profileid + "' class='text-center'>Welcome " + login.name + "</a></h3></div>") //Production
                     //window.location = "http://localhost:56602/home/Activity?username=" + login.profileid;
                 }
             },
