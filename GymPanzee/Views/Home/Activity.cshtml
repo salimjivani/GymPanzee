@@ -176,6 +176,7 @@
         jsonactivity.User = username;
         jsonactivity.Machine = exercisemachineid;
 
+        $(document).ready(function () { 
         $.ajax({
             url: "/Home/Activities",
             contentType: "application/json; charset=utf-8",
@@ -185,7 +186,7 @@
             data: JSON.stringify(jsonactivity),
             success: function (json) {
                 previousworkout = json;
-                console.log(json);
+                //console.log(json);
                 //$("#previous").html("<h3><ul>Previous</ul></h3><table><tr><td>It was: </td><td>" + json[0].Other + "</td></tr><tr><td>Reps:</td><td>" + json[0].Reps + "</td></tr><tr><td>Weights:</td><td>" + json[0].Weights + " lbs</td></tr><tr><td>Time:</td><td>" + json[0].Time + " mins</td></tr></table>");
                 for (x = 0; x < json.length; x++)
                 {
@@ -193,16 +194,14 @@
                     newchart.data.datasets[0].data[x] = json[x].Weights;
                     newchart.data.datasets[1].data[x] = json[x].Reps;
 
-                    if (json[x].Other == "Hard")
-                    {
+                    if (json[x].Other == "Hard") {
                         newchart.data.datasets[0].backgroundColor[x] = hard;
                         newchart.data.datasets[0].borderColor[x] = hard;
                     } else if (json[x].Other == "Medium") {
                         newchart.data.datasets[0].backgroundColor[x] = medium;
                         newchart.data.datasets[0].borderColor[x] = hard;
-                    } else if (json[x].Other == "Easy")
-                    {
-                        newchart.data.datasets[0].backgroundColor[x] = hard;
+                    } else if (json[x].Other == "Easy") {
+                        newchart.data.datasets[0].backgroundColor[x] = easy;
                         newchart.data.datasets[0].borderColor[x] = hard;
                     }
                     
@@ -213,17 +212,15 @@
             error: function () {
                 console.log("ERROR");
             }
+            });
         });
     //});
-
-
 
     //insert activites
     $("#submit").click(function () {
         var InsertActivtyData = { 'UserID': username, 'FacilityID': facilityid, 'ExerciseMachineID': exercisemachineid, 'Reps': $('#reps').val(), 'Weights': $('#weights').val(), 'Time': $('#time').val(), 'Other': $('#other').val()};
         InsertActivtyData = JSON.stringify(InsertActivtyData);
-
-        console.log(InsertActivtyData);
+        //console.log(InsertActivtyData);
         $.ajax({
             url: "/Home/InsertActivities",
             contentType: "application/json; charset=utf-8",
@@ -238,7 +235,8 @@
                 console.log("ERROR");
             }
         });
-        $('#exercisemachine').val('--Choose Workout--');
+        location.reload(true);
+        //$('#exercisemachine').val('--Choose Workout--');
         $('#reps').val('');
         $('#weights').val('');
         $('#time').val('');
