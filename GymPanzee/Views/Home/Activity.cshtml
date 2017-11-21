@@ -13,25 +13,26 @@
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
+
     var facilityid = getParameterByName('facility');
     var exercisemachineid = getParameterByName('exercisemachineid');
+    var exercisecategoryid = getParameterByName('exercisecategory');
 
     //Login Logic
-        var usernameurl = getParameterByName('username');
+    var usernameurl = getParameterByName('username');
 
-        if (username || usernameurl == null) {
-            window.location.href = "http://gympanzee20170902080932.azurewebsites.net/?exercisemachineid=" + exercisemachineid + "&facility=" + facilityid;
-        } else if (!!usernameurl)
-        {
-            $.cookie('username', usernameurl, { expires: 10});
-        }
+    if (username || usernameurl == null) {
+        window.location.href = "../?exercisemachineid=" + exercisemachineid + "&facility=" + facilityid;
+    } else if (!!usernameurl)
+    {
+        $.cookie('username', usernameurl, { expires: 10});
+    }
 
-        var username = $.cookie('username');
-        //alert($.cookie('username'));
-
+    var username = $.cookie('username');
 
 
     var excercises = {};
+    var exercisemachine = { 'exercisemachineid': getParameterByName('exercisemachineid')};    
     //Exercise List
     $.ajax({
         url: "/Home/ExerciseMachines",
@@ -39,7 +40,7 @@
         dataType: "json",
         async: false,
         type: "POST",
-        data: "data",
+        data: JSON.stringify(exercisemachine),
         success: function (json) {
             console.log(json);
             excercises = json;
@@ -113,14 +114,6 @@
 </body>
 <script>
 
-    //Drop down for exercises
-/*
-    for (x = 0; x < excercises.length; x++) {
-        $("#exercisemachine").append($("<option value='" + excercises[x].IDjson + "'>" + excercises[x].Typejson + "</option>"));
-    };
-*/
-    $("#exercisemachine").append($("<span value='" + excercises[exercisemachineid-1].IDjson + "'>" + excercises[exercisemachineid-1].Typejson + "</span>"));
-
     //ChartJs
     var ctx = document.getElementById("myChart").getContext('2d');
     var hard = 'rgb(115, 14, 222, 1)';
@@ -169,52 +162,103 @@
         }
     };
 
-    //Gather previous workout data
-    //$('#exercisemachine').change(function () {
+    var jsonactivity = {};
+    jsonactivity.User = username;
 
-        var jsonactivity = {};
-        jsonactivity.User = username;
-        jsonactivity.Machine = exercisemachineid;
 
-        $(document).ready(function () { 
-        $.ajax({
-            url: "/Home/Activities",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            async: false,
-            type: "POST",
-            data: JSON.stringify(jsonactivity),
-            success: function (json) {
-                previousworkout = json;
-                //console.log(json);
-                //$("#previous").html("<h3><ul>Previous</ul></h3><table><tr><td>It was: </td><td>" + json[0].Other + "</td></tr><tr><td>Reps:</td><td>" + json[0].Reps + "</td></tr><tr><td>Weights:</td><td>" + json[0].Weights + " lbs</td></tr><tr><td>Time:</td><td>" + json[0].Time + " mins</td></tr></table>");
-                for (x = 0; x < json.length; x++)
-                {
-                    newchart.data.labels[x] = new Date(parseInt(json[x].Date.substr(6))).getMonth() + 1 + "/" + new Date(parseInt(json[x].Date.substr(6))).getDate();
-                    newchart.data.datasets[0].data[x] = json[x].Weights;
-                    newchart.data.datasets[1].data[x] = json[x].Reps;
+    //Workout Input
+    if (excercises.length > 1) {
+        //Drop Down
+        $("#exercisemachine").append($("<select id='exercise'><option>--Select Workout--</option></select>"));
+        for (x = 0; x < excercises.length; x++) {
+            $("#exercisemachine > select").append($("<option value='" + excercises[x].IDjson + "'>" + excercises[x].Typejson + "</option>"));
+        };
+        //Gather previous workout data
+        $('#exercisemachine').change(function () {
+            jsonactivity.Machine = exercisemachineid;
 
-                    if (json[x].Other == "Hard") {
-                        newchart.data.datasets[0].backgroundColor[x] = hard;
-                        newchart.data.datasets[0].borderColor[x] = hard;
-                    } else if (json[x].Other == "Medium") {
-                        newchart.data.datasets[0].backgroundColor[x] = medium;
-                        newchart.data.datasets[0].borderColor[x] = hard;
-                    } else if (json[x].Other == "Easy") {
-                        newchart.data.datasets[0].backgroundColor[x] = easy;
-                        newchart.data.datasets[0].borderColor[x] = hard;
+            $(document).ready(function () {
+                $.ajax({
+                    url: "/Home/Activities",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    async: false,
+                    type: "POST",
+                    data: JSON.stringify(jsonactivity),
+                    success: function (json) {
+                        previousworkout = json;
+                        //console.log(json);
+                        //$("#previous").html("<h3><ul>Previous</ul></h3><table><tr><td>It was: </td><td>" + json[0].Other + "</td></tr><tr><td>Reps:</td><td>" + json[0].Reps + "</td></tr><tr><td>Weights:</td><td>" + json[0].Weights + " lbs</td></tr><tr><td>Time:</td><td>" + json[0].Time + " mins</td></tr></table>");
+                        for (x = 0; x < json.length; x++) {
+                            newchart.data.labels[x] = new Date(parseInt(json[x].Date.substr(6))).getMonth() + 1 + "/" + new Date(parseInt(json[x].Date.substr(6))).getDate();
+                            newchart.data.datasets[0].data[x] = json[x].Weights;
+                            newchart.data.datasets[1].data[x] = json[x].Reps;
+
+                            if (json[x].Other == "Hard") {
+                                newchart.data.datasets[0].backgroundColor[x] = hard;
+                                newchart.data.datasets[0].borderColor[x] = hard;
+                            } else if (json[x].Other == "Medium") {
+                                newchart.data.datasets[0].backgroundColor[x] = medium;
+                                newchart.data.datasets[0].borderColor[x] = hard;
+                            } else if (json[x].Other == "Easy") {
+                                newchart.data.datasets[0].backgroundColor[x] = easy;
+                                newchart.data.datasets[0].borderColor[x] = hard;
+                            }
+
+                        }
+
+                        var myChart = new Chart(ctx, newchart);
+                    },
+                    error: function () {
+                        console.log("ERROR");
                     }
-                    
-                }
-
-                var myChart = new Chart(ctx, newchart);
-            },
-            error: function () {
-                console.log("ERROR");
-            }
+                });
             });
         });
-    //});
+    }
+    else {
+        //Text
+        $("#exercisemachine").append($("<span value='" + excercises[0].IDjson + "'>" + excercises[0].Typejson + "</span>"));
+        jsonactivity.Machine = exercisemachineid;
+
+        $(document).ready(function () {
+            $.ajax({
+                url: "/Home/Activities",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                type: "POST",
+                data: JSON.stringify(jsonactivity),
+                success: function (json) {
+                    previousworkout = json;
+                    //console.log(json);
+                    //$("#previous").html("<h3><ul>Previous</ul></h3><table><tr><td>It was: </td><td>" + json[0].Other + "</td></tr><tr><td>Reps:</td><td>" + json[0].Reps + "</td></tr><tr><td>Weights:</td><td>" + json[0].Weights + " lbs</td></tr><tr><td>Time:</td><td>" + json[0].Time + " mins</td></tr></table>");
+                    for (x = 0; x < json.length; x++) {
+                        newchart.data.labels[x] = new Date(parseInt(json[x].Date.substr(6))).getMonth() + 1 + "/" + new Date(parseInt(json[x].Date.substr(6))).getDate();
+                        newchart.data.datasets[0].data[x] = json[x].Weights;
+                        newchart.data.datasets[1].data[x] = json[x].Reps;
+
+                        if (json[x].Other == "Hard") {
+                            newchart.data.datasets[0].backgroundColor[x] = hard;
+                            newchart.data.datasets[0].borderColor[x] = hard;
+                        } else if (json[x].Other == "Medium") {
+                            newchart.data.datasets[0].backgroundColor[x] = medium;
+                            newchart.data.datasets[0].borderColor[x] = hard;
+                        } else if (json[x].Other == "Easy") {
+                            newchart.data.datasets[0].backgroundColor[x] = easy;
+                            newchart.data.datasets[0].borderColor[x] = hard;
+                        }
+
+                    }
+
+                    var myChart = new Chart(ctx, newchart);
+                },
+                error: function () {
+                    console.log("ERROR");
+                }
+            });
+        });
+    }
 
     //insert activites
     $("#submit").click(function () {

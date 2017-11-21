@@ -20,7 +20,16 @@
     <Type Name="ExerciseCategory">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Type" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="ExerciseEquipmentCategory" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="ExerciseCategory_ExerciseMachine" Member="ExerciseMachines" ThisKey="ID" OtherKey="ExerciseCategoryID" Type="ExerciseMachine" />
+      <Association Name="ExerciseEquipmentCategory_ExerciseCategory" Member="ExerciseEquipmentCategory1" ThisKey="ExerciseEquipmentCategory" OtherKey="ID" Type="ExerciseEquipmentCategory" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ExerciseEquipmentCategory" Member="ExerciseEquipmentCategories">
+    <Type Name="ExerciseEquipmentCategory">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Value" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Association Name="ExerciseEquipmentCategory_ExerciseCategory" Member="ExerciseCategories" ThisKey="ID" OtherKey="ExerciseEquipmentCategory" Type="ExerciseCategory" />
     </Type>
   </Table>
   <Table Name="dbo.ExerciseMachines" Member="ExerciseMachines">

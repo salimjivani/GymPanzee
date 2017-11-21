@@ -36,6 +36,9 @@ namespace GymPanzee.Controllers
     partial void InsertExerciseCategory(ExerciseCategory instance);
     partial void UpdateExerciseCategory(ExerciseCategory instance);
     partial void DeleteExerciseCategory(ExerciseCategory instance);
+    partial void InsertExerciseEquipmentCategory(ExerciseEquipmentCategory instance);
+    partial void UpdateExerciseEquipmentCategory(ExerciseEquipmentCategory instance);
+    partial void DeleteExerciseEquipmentCategory(ExerciseEquipmentCategory instance);
     partial void InsertExerciseMachine(ExerciseMachine instance);
     partial void UpdateExerciseMachine(ExerciseMachine instance);
     partial void DeleteExerciseMachine(ExerciseMachine instance);
@@ -90,6 +93,14 @@ namespace GymPanzee.Controllers
 			get
 			{
 				return this.GetTable<ExerciseCategory>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ExerciseEquipmentCategory> ExerciseEquipmentCategories
+		{
+			get
+			{
+				return this.GetTable<ExerciseEquipmentCategory>();
 			}
 		}
 		
@@ -526,7 +537,11 @@ namespace GymPanzee.Controllers
 		
 		private string _Type;
 		
+		private System.Nullable<int> _ExerciseEquipmentCategory;
+		
 		private EntitySet<ExerciseMachine> _ExerciseMachines;
+		
+		private EntityRef<ExerciseEquipmentCategory> _ExerciseEquipmentCategory1;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -536,11 +551,14 @@ namespace GymPanzee.Controllers
     partial void OnIDChanged();
     partial void OnTypeChanging(string value);
     partial void OnTypeChanged();
+    partial void OnExerciseEquipmentCategoryChanging(System.Nullable<int> value);
+    partial void OnExerciseEquipmentCategoryChanged();
     #endregion
 		
 		public ExerciseCategory()
 		{
 			this._ExerciseMachines = new EntitySet<ExerciseMachine>(new Action<ExerciseMachine>(this.attach_ExerciseMachines), new Action<ExerciseMachine>(this.detach_ExerciseMachines));
+			this._ExerciseEquipmentCategory1 = default(EntityRef<ExerciseEquipmentCategory>);
 			OnCreated();
 		}
 		
@@ -584,6 +602,30 @@ namespace GymPanzee.Controllers
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExerciseEquipmentCategory", DbType="Int")]
+		public System.Nullable<int> ExerciseEquipmentCategory
+		{
+			get
+			{
+				return this._ExerciseEquipmentCategory;
+			}
+			set
+			{
+				if ((this._ExerciseEquipmentCategory != value))
+				{
+					if (this._ExerciseEquipmentCategory1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnExerciseEquipmentCategoryChanging(value);
+					this.SendPropertyChanging();
+					this._ExerciseEquipmentCategory = value;
+					this.SendPropertyChanged("ExerciseEquipmentCategory");
+					this.OnExerciseEquipmentCategoryChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ExerciseCategory_ExerciseMachine", Storage="_ExerciseMachines", ThisKey="ID", OtherKey="ExerciseCategoryID")]
 		public EntitySet<ExerciseMachine> ExerciseMachines
 		{
@@ -594,6 +636,40 @@ namespace GymPanzee.Controllers
 			set
 			{
 				this._ExerciseMachines.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ExerciseEquipmentCategory_ExerciseCategory", Storage="_ExerciseEquipmentCategory1", ThisKey="ExerciseEquipmentCategory", OtherKey="ID", IsForeignKey=true)]
+		public ExerciseEquipmentCategory ExerciseEquipmentCategory1
+		{
+			get
+			{
+				return this._ExerciseEquipmentCategory1.Entity;
+			}
+			set
+			{
+				ExerciseEquipmentCategory previousValue = this._ExerciseEquipmentCategory1.Entity;
+				if (((previousValue != value) 
+							|| (this._ExerciseEquipmentCategory1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ExerciseEquipmentCategory1.Entity = null;
+						previousValue.ExerciseCategories.Remove(this);
+					}
+					this._ExerciseEquipmentCategory1.Entity = value;
+					if ((value != null))
+					{
+						value.ExerciseCategories.Add(this);
+						this._ExerciseEquipmentCategory = value.ID;
+					}
+					else
+					{
+						this._ExerciseEquipmentCategory = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("ExerciseEquipmentCategory1");
+				}
 			}
 		}
 		
@@ -627,6 +703,120 @@ namespace GymPanzee.Controllers
 		{
 			this.SendPropertyChanging();
 			entity.ExerciseCategory = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ExerciseEquipmentCategory")]
+	public partial class ExerciseEquipmentCategory : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private string _Value;
+		
+		private EntitySet<ExerciseCategory> _ExerciseCategories;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnValueChanging(string value);
+    partial void OnValueChanged();
+    #endregion
+		
+		public ExerciseEquipmentCategory()
+		{
+			this._ExerciseCategories = new EntitySet<ExerciseCategory>(new Action<ExerciseCategory>(this.attach_ExerciseCategories), new Action<ExerciseCategory>(this.detach_ExerciseCategories));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Value", DbType="VarChar(255)")]
+		public string Value
+		{
+			get
+			{
+				return this._Value;
+			}
+			set
+			{
+				if ((this._Value != value))
+				{
+					this.OnValueChanging(value);
+					this.SendPropertyChanging();
+					this._Value = value;
+					this.SendPropertyChanged("Value");
+					this.OnValueChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ExerciseEquipmentCategory_ExerciseCategory", Storage="_ExerciseCategories", ThisKey="ID", OtherKey="ExerciseEquipmentCategory")]
+		public EntitySet<ExerciseCategory> ExerciseCategories
+		{
+			get
+			{
+				return this._ExerciseCategories;
+			}
+			set
+			{
+				this._ExerciseCategories.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ExerciseCategories(ExerciseCategory entity)
+		{
+			this.SendPropertyChanging();
+			entity.ExerciseEquipmentCategory1 = this;
+		}
+		
+		private void detach_ExerciseCategories(ExerciseCategory entity)
+		{
+			this.SendPropertyChanging();
+			entity.ExerciseEquipmentCategory1 = null;
 		}
 	}
 	

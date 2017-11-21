@@ -13,30 +13,52 @@ namespace GymPanzee.Controllers
     {
         public ActionResult Index()
         {
+
             return View();
         }
 
         [HttpPost]
-        public JsonResult ExerciseMachines()
+        public JsonResult ExerciseMachines(int exercisemachineid)
         {
             GympanzeeDBDataContext userstable = new GympanzeeDBDataContext();
 
-            var exercisemachinemodel = userstable.ExerciseMachines.ToList();
+            var exercisecategory = (from em in userstable.ExerciseMachines
+                                    join ec in userstable.ExerciseCategories on em.ExerciseCategoryID equals ec.ID
+                                    join eq in userstable.ExerciseEquipmentCategories on ec.ExerciseEquipmentCategory equals eq.ID
+                                    select new { em, ec, eq }).ToList();
 
-            var testinglist = new List<Rootobject>();
+            var exercisemachine = exercisecategory.Where(x => x.em.ID == exercisemachineid).ToList();
 
-            foreach (var a in exercisemachinemodel)
+            var exerciselist = new List<Rootobject>();
+
+            if (exercisemachine[0].eq.ID == 1)
             {
-                Rootobject testing = new Rootobject()
+                Rootobject exercisemodel = new Rootobject()
                 {
-                    IDjson = a.ID,
-                    ExerciseCategoryjson = a.ExerciseCategoryID.ToString(),
-                    Typejson = a.Type
+                    IDjson = exercisemachine[0].em.ID,
+                    ExerciseCategoryjson = exercisemachine[0].em.ExerciseCategoryID.ToString(),
+                    Typejson = exercisemachine[0].em.Type
                 };
-                testinglist.Add(testing);
+                exerciselist.Add(exercisemodel);
+            }
+            else
+            {
+                foreach (var ee in exercisecategory)
+                {
+                    if (ee.ec.ID == exercisemachine[0].ec.ID)
+                    {
+                        Rootobject exercisemodel = new Rootobject()
+                        {
+                            IDjson = ee.em.ID,
+                            ExerciseCategoryjson = ee.em.ExerciseCategoryID.ToString(),
+                            Typejson = ee.em.Type
+                        };
+                        exerciselist.Add(exercisemodel);
+                    }
+                }
             }
 
-            return Json(testinglist, JsonRequestBehavior.AllowGet);
+            return Json(exerciselist, JsonRequestBehavior.AllowGet);
         }
         
         [HttpPost]
