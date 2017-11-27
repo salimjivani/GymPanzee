@@ -120,47 +120,47 @@
     var medium = 'rgb(194, 102, 255, 1)';
     var easy = 'rgb(235, 204, 255, 1)';
 
-    var newchart = {
-        type: 'bar',
-        data: {
-            labels: [],
-            datasets: [
-                {
-                    label: 'Weights',
-                    data: [],
-                    backgroundColor: [],
-                    borderColor: [],
-                    borderWidth: 1,
-                    yAxisID: 'Weights Dataset'
-                },
-                {
-                    label: 'Reps',
-                    data: [],
-                    type: 'line',
-                    yAxisID: 'Reps Dataset'
-                }
-            ],
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    id: 'Weights Dataset',
-                    type: 'linear',
-                    position: 'left',
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }, {
-                    id: 'Reps Dataset',
-                    type: 'linear',
-                    position: 'right',
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
-    };
+    //var newchart = {
+    //    type: 'bar',
+    //    data: {
+    //        labels: [],
+    //        datasets: [
+    //            {
+    //                label: 'Weights',
+    //                data: [],
+    //                backgroundColor: [],
+    //                borderColor: [],
+    //                borderWidth: 1,
+    //                yAxisID: 'Weights Dataset'
+    //            },
+    //            {
+    //                label: 'Reps',
+    //                data: [],
+    //                type: 'line',
+    //                yAxisID: 'Reps Dataset'
+    //            }
+    //        ],
+    //    },
+    //    options: {
+    //        scales: {
+    //            yAxes: [{
+    //                id: 'Weights Dataset',
+    //                type: 'linear',
+    //                position: 'left',
+    //                ticks: {
+    //                    beginAtZero: true
+    //                }
+    //            }, {
+    //                id: 'Reps Dataset',
+    //                type: 'linear',
+    //                position: 'right',
+    //                ticks: {
+    //                    beginAtZero: true
+    //                }
+    //            }]
+    //        }
+    //    }
+    //};
 
     var jsonactivity = {};
     jsonactivity.User = username;
@@ -175,7 +175,8 @@
         };
         //Gather previous workout data
         $('#exercisemachine').change(function () {
-            jsonactivity.Machine = exercisemachineid;
+            exercisechange = $('#exercise').val();
+            jsonactivity.Machine = exercisechange;
 
             $(document).ready(function () {
                 $.ajax({
@@ -187,7 +188,48 @@
                     data: JSON.stringify(jsonactivity),
                     success: function (json) {
                         previousworkout = json;
-                        //console.log(json);
+                        console.log(json);
+                        var newchart = {
+                            type: 'bar',
+                            data: {
+                                labels: [],
+                                datasets: [
+                                    {
+                                        label: 'Weights',
+                                        data: [],
+                                        backgroundColor: [],
+                                        borderColor: [],
+                                        borderWidth: 1,
+                                        yAxisID: 'Weights Dataset'
+                                    },
+                                    {
+                                        label: 'Reps',
+                                        data: [],
+                                        type: 'line',
+                                        yAxisID: 'Reps Dataset'
+                                    }
+                                ],
+                            },
+                            options: {
+                                scales: {
+                                    yAxes: [{
+                                        id: 'Weights Dataset',
+                                        type: 'linear',
+                                        position: 'left',
+                                        ticks: {
+                                            beginAtZero: true
+                                        }
+                                    }, {
+                                        id: 'Reps Dataset',
+                                        type: 'linear',
+                                        position: 'right',
+                                        ticks: {
+                                            beginAtZero: true
+                                        }
+                                    }]
+                                }
+                            }
+                        };
                         //$("#previous").html("<h3><ul>Previous</ul></h3><table><tr><td>It was: </td><td>" + json[0].Other + "</td></tr><tr><td>Reps:</td><td>" + json[0].Reps + "</td></tr><tr><td>Weights:</td><td>" + json[0].Weights + " lbs</td></tr><tr><td>Time:</td><td>" + json[0].Time + " mins</td></tr></table>");
                         for (x = 0; x < json.length; x++) {
                             newchart.data.labels[x] = new Date(parseInt(json[x].Date.substr(6))).getMonth() + 1 + "/" + new Date(parseInt(json[x].Date.substr(6))).getDate();
@@ -215,12 +257,78 @@
                 });
             });
         });
+        //insert activites
+        $("#submit").click(function () {
+            var InsertActivtyData = { 'UserID': username, 'FacilityID': facilityid, 'ExerciseMachineID': exercisechange, 'Reps': $('#reps').val(), 'Weights': $('#weights').val(), 'Time': $('#time').val(), 'Other': $('#other').val() };
+            InsertActivtyData = JSON.stringify(InsertActivtyData);
+            //console.log(InsertActivtyData);
+            $.ajax({
+                url: "/Home/InsertActivities",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                type: "POST",
+                data: InsertActivtyData,
+                success: function (json) {
+                    console.log(json);
+                },
+                error: function () {
+                    console.log("ERROR");
+                }
+            });
+            location.reload(true);
+            //$('#exercisemachine').val('--Choose Workout--');
+            //$('#reps').val('');
+            //$('#weights').val('');
+            //$('#time').val('');
+            //$('#other').val('Easy');
+        });
     }
     else {
         //Text
         $("#exercisemachine").append($("<span value='" + excercises[0].IDjson + "'>" + excercises[0].Typejson + "</span>"));
         jsonactivity.Machine = exercisemachineid;
-
+        var newchart = {
+            type: 'bar',
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'Weights',
+                        data: [],
+                        backgroundColor: [],
+                        borderColor: [],
+                        borderWidth: 1,
+                        yAxisID: 'Weights Dataset'
+                    },
+                    {
+                        label: 'Reps',
+                        data: [],
+                        type: 'line',
+                        yAxisID: 'Reps Dataset'
+                    }
+                ],
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        id: 'Weights Dataset',
+                        type: 'linear',
+                        position: 'left',
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }, {
+                        id: 'Reps Dataset',
+                        type: 'linear',
+                        position: 'right',
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        };
         $(document).ready(function () {
             $.ajax({
                 url: "/Home/Activities",
@@ -258,33 +366,32 @@
                 }
             });
         });
-    }
-
-    //insert activites
-    $("#submit").click(function () {
-        var InsertActivtyData = { 'UserID': username, 'FacilityID': facilityid, 'ExerciseMachineID': exercisemachineid, 'Reps': $('#reps').val(), 'Weights': $('#weights').val(), 'Time': $('#time').val(), 'Other': $('#other').val()};
-        InsertActivtyData = JSON.stringify(InsertActivtyData);
-        //console.log(InsertActivtyData);
-        $.ajax({
-            url: "/Home/InsertActivities",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            async: false,
-            type: "POST",
-            data: InsertActivtyData,
-            success: function (json) {
-                console.log(json);
-            },
-            error: function () {
-                console.log("ERROR");
-            }
+        //insert activites
+        $("#submit").click(function () {
+            var InsertActivtyData = { 'UserID': username, 'FacilityID': facilityid, 'ExerciseMachineID': exercisemachineid, 'Reps': $('#reps').val(), 'Weights': $('#weights').val(), 'Time': $('#time').val(), 'Other': $('#other').val() };
+            InsertActivtyData = JSON.stringify(InsertActivtyData);
+            //console.log(InsertActivtyData);
+            $.ajax({
+                url: "/Home/InsertActivities",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                type: "POST",
+                data: InsertActivtyData,
+                success: function (json) {
+                    console.log(json);
+                },
+                error: function () {
+                    console.log("ERROR");
+                }
+            });
+            location.reload(true);
+            //$('#exercisemachine').val('--Choose Workout--');
+            //$('#reps').val('');
+            //$('#weights').val('');
+            //$('#time').val('');
+            //$('#other').val('Easy');
         });
-        location.reload(true);
-        //$('#exercisemachine').val('--Choose Workout--');
-        $('#reps').val('');
-        $('#weights').val('');
-        $('#time').val('');
-        $('#other').val('Easy');
-    });
+    }
 
 </script>
