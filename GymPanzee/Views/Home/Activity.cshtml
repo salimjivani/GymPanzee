@@ -197,38 +197,35 @@
                             type: 'bar',
                             data: {
                                 labels: [],
-                                datasets: [
-                                    {
-                                        label: 'Weights',
-                                        data: [],
-                                        backgroundColor: [],
-                                        borderColor: [],
-                                        borderWidth: 1,
-                                        yAxisID: 'Weights Dataset'
-                                    },
-                                    {
-                                        label: 'Reps',
-                                        data: [],
-                                        type: 'line',
-                                        yAxisID: 'Reps Dataset'
-                                    }
-                                ],
+                                datasets: [{
+                                    label: 'Weights',
+                                    fill: true,
+                                    backgroundColor: 'rgb(115, 14, 222, 1)',
+                                    data: []
+                                }, {
+                                    label: 'Reps',
+                                    backgroundColor: 'rgb(194, 102, 255, 1)',
+                                    data: []
+                                }, {
+                                    label: 'Sets',
+                                    backgroundColor: 'rgb(235, 204, 255, 1)',
+                                    data: []
+                                }]
                             },
                             options: {
+                                tooltips: {
+                                    mode: 'index',
+                                    intersect: false
+                                },
+                                responsive: true,
                                 scales: {
+                                    xAxes: [{
+                                        stacked: true,
+                                    }],
                                     yAxes: [{
-                                        id: 'Weights Dataset',
-                                        type: 'linear',
-                                        position: 'left',
-                                        ticks: {
-                                            beginAtZero: true
-                                        }
-                                    }, {
-                                        id: 'Reps Dataset',
-                                        type: 'linear',
-                                        position: 'right',
-                                        ticks: {
-                                            beginAtZero: true
+                                        stacked: true,
+                                        scales: {
+                                            yAxes: [{ ticks: { mirror: true } }]
                                         }
                                     }]
                                 }
@@ -239,20 +236,8 @@
                             newchart.data.labels[x] = new Date(parseInt(json[x].Date.substr(6))).getMonth() + 1 + "/" + new Date(parseInt(json[x].Date.substr(6))).getDate();
                             newchart.data.datasets[0].data[x] = json[x].Weights;
                             newchart.data.datasets[1].data[x] = json[x].Reps;
-
-                            if (json[x].Other == "Hard") {
-                                newchart.data.datasets[0].backgroundColor[x] = hard;
-                                newchart.data.datasets[0].borderColor[x] = hard;
-                            } else if (json[x].Other == "Medium") {
-                                newchart.data.datasets[0].backgroundColor[x] = medium;
-                                newchart.data.datasets[0].borderColor[x] = hard;
-                            } else if (json[x].Other == "Easy") {
-                                newchart.data.datasets[0].backgroundColor[x] = easy;
-                                newchart.data.datasets[0].borderColor[x] = hard;
-                            }
-
+                            newchart.data.datasets[2].data[x] = json[x].Sets;
                         }
-
                         var myChart = new Chart(ctx, newchart);
                     },
                     error: function () {
@@ -296,38 +281,35 @@
             type: 'bar',
             data: {
                 labels: [],
-                datasets: [
-                    {
-                        label: 'Weights',
-                        data: [],
-                        backgroundColor: [],
-                        borderColor: [],
-                        borderWidth: 1,
-                        yAxisID: 'Weights Dataset'
-                    },
-                    {
-                        label: 'Reps',
-                        data: [],
-                        type: 'line',
-                        yAxisID: 'Reps Dataset'
-                    }
-                ],
+                datasets: [{
+                    label: 'Weights',
+                    fill: true,
+                    backgroundColor: 'rgb(115, 14, 222, 1)',
+                    data: []
+                }, {
+                    label: 'Reps',
+                    backgroundColor: 'rgb(194, 102, 255, 1)',
+                    data: []
+                }, {
+                    label: 'Sets',
+                    backgroundColor: 'rgb(235, 204, 255, 1)',
+                    data: []
+                }]
             },
             options: {
+                tooltips: {
+                    mode: 'index',
+                    intersect: false
+                },
+                responsive: true,
                 scales: {
+                    xAxes: [{
+                        stacked: true,
+                    }],
                     yAxes: [{
-                        id: 'Weights Dataset',
-                        type: 'linear',
-                        position: 'left',
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }, {
-                        id: 'Reps Dataset',
-                        type: 'linear',
-                        position: 'right',
-                        ticks: {
-                            beginAtZero: true
+                        stacked: true,
+                        scales: {
+                            yAxes: [{ ticks: { mirror: true } }]
                         }
                     }]
                 }
@@ -349,18 +331,7 @@
                         newchart.data.labels[x] = new Date(parseInt(json[x].Date.substr(6))).getMonth() + 1 + "/" + new Date(parseInt(json[x].Date.substr(6))).getDate();
                         newchart.data.datasets[0].data[x] = json[x].Weights;
                         newchart.data.datasets[1].data[x] = json[x].Reps;
-
-                        if (json[x].Other == "Hard") {
-                            newchart.data.datasets[0].backgroundColor[x] = hard;
-                            newchart.data.datasets[0].borderColor[x] = hard;
-                        } else if (json[x].Other == "Medium") {
-                            newchart.data.datasets[0].backgroundColor[x] = medium;
-                            newchart.data.datasets[0].borderColor[x] = hard;
-                        } else if (json[x].Other == "Easy") {
-                            newchart.data.datasets[0].backgroundColor[x] = easy;
-                            newchart.data.datasets[0].borderColor[x] = hard;
-                        }
-
+                        newchart.data.datasets[2].data[x] = json[x].Sets;
                     }
 
                     var myChart = new Chart(ctx, newchart);
