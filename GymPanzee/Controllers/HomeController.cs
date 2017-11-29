@@ -66,7 +66,7 @@ namespace GymPanzee.Controllers
         {
             GympanzeeDBDataContext insertactivitiesDB = new GympanzeeDBDataContext();
 
-            insertactivitiesDB.insertactivity(model.UserID, model.FacilityID, model.ExerciseMachineID, model.Reps, model.Weights, model.Time, model.Other);
+            insertactivitiesDB.insertactivity(model.UserID, model.FacilityID, model.ExerciseMachineID, model.Reps, model.Weights, model.Time, model.Other, model.Sets);
 
             return Json("saved", JsonRequestBehavior.AllowGet);
         }
@@ -76,7 +76,7 @@ namespace GymPanzee.Controllers
         {
             GympanzeeDBDataContext Pastactivity = new GympanzeeDBDataContext();
 
-            var ActivityDataSet = (from a in Pastactivity.Activities where a.UserID == User && a.ExerciseMachineID == Machine orderby a.Date descending select new { a.UserID, a.ExerciseMachineID, a.FacilityID, a.Reps, a.Weights, a.Time, a.Other, a.Date}).ToList();
+            var ActivityDataSet = (from a in Pastactivity.Activities where a.UserID == User && a.ExerciseMachineID == Machine orderby a.Date descending select new { a.UserID, a.ExerciseMachineID, a.FacilityID, a.Reps, a.Weights, a.Time, a.Other, a.Date, a.Sets}).ToList();
 
             var PrevActivity = new List<Activity>();
 
@@ -90,7 +90,8 @@ namespace GymPanzee.Controllers
                     Reps = a.Reps,
                     Weights = a.Weights,
                     Time = a.Time,
-                    Date = a.Date
+                    Date = a.Date,
+                    Sets = a.Sets
                 };
                 PrevActivity.Add(PreviousActivityjson);
             }

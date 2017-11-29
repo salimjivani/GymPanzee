@@ -76,6 +76,10 @@
                 <td><input type="number" id="weights" name="weights" /></td>
             </tr>
             <tr>
+                <td>Sets</td>
+                <td><input type="number" id="sets" name="sets" /></td>
+            </tr>
+            <tr>
                 <td>Reps</td>
                 <td><input type="number" id="reps" name="reps" /></td>
             </tr>
@@ -259,9 +263,9 @@
         });
         //insert activites
         $("#submit").click(function () {
-            var InsertActivtyData = { 'UserID': username, 'FacilityID': facilityid, 'ExerciseMachineID': exercisechange, 'Reps': $('#reps').val(), 'Weights': $('#weights').val(), 'Time': $('#time').val(), 'Other': $('#other').val() };
+            var InsertActivtyData = { 'UserID': username, 'FacilityID': facilityid, 'ExerciseMachineID': exercisechange, 'Sets': $('#sets').val(), 'Reps': $('#reps').val(), 'Weights': $('#weights').val(), 'Time': $('#time').val(), 'Other': $('#other').val() };
             InsertActivtyData = JSON.stringify(InsertActivtyData);
-            //console.log(InsertActivtyData);
+            console.log(InsertActivtyData);
             $.ajax({
                 url: "/Home/InsertActivities",
                 contentType: "application/json; charset=utf-8",
@@ -368,7 +372,7 @@
         });
         //insert activites
         $("#submit").click(function () {
-            var InsertActivtyData = { 'UserID': username, 'FacilityID': facilityid, 'ExerciseMachineID': exercisemachineid, 'Reps': $('#reps').val(), 'Weights': $('#weights').val(), 'Time': $('#time').val(), 'Other': $('#other').val() };
+            var InsertActivtyData = { 'UserID': username, 'FacilityID': facilityid, 'ExerciseMachineID': exercisemachineid, 'Sets': $('#sets').val(),  'Reps': $('#reps').val(), 'Weights': $('#weights').val(), 'Time': $('#time').val(), 'Other': $('#other').val() };
             InsertActivtyData = JSON.stringify(InsertActivtyData);
             //console.log(InsertActivtyData);
             $.ajax({

@@ -22,6 +22,7 @@ namespace GymPanzee.Models
         public int? Time { get; set; }
         public string Other { get; set; }
         public string Date { get; set; }
+        public int? Sets { get; set; }
     }
 
 }
