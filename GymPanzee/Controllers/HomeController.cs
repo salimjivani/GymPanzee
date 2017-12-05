@@ -13,7 +13,6 @@ namespace GymPanzee.Controllers
     {
         public ActionResult Index()
         {
-
             return View();
         }
 
@@ -116,6 +115,60 @@ namespace GymPanzee.Controllers
             return Json(Username, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult SummaryInformation()
+        {
+            GympanzeeDBDataContext table = new GympanzeeDBDataContext();
+
+            var activitydata = (from act in table.Activities
+                                join em in table.ExerciseMachines on act.ExerciseMachineID equals em.ID
+                                join tb in table.TargetBodyParts on em.TargetBodyPartID equals tb.ID
+                                join bh in table.BodyHalfs on tb.BodyHalfID equals bh.ID
+                                select new { act, em, tb, bh }).ToList();
+
+            var upperbodydata = (from tb in table.TargetBodyParts
+                                 join bh in table.BodyHalfs on tb.BodyHalfID equals bh.ID
+                                 where bh.ID == 1
+                                 select new { tb }).ToList();
+
+            var lowerbodydata = (from tb in table.TargetBodyParts
+                                 join bh in table.BodyHalfs on tb.BodyHalfID equals bh.ID
+                                 where bh.ID == 2
+                                 select new { tb }).ToList();
+
+            var SummaryData = new Summary()
+            {
+                UpperBody = new List<string>(),
+                LowerBody = new List<string>(),
+                SActivity = new List<SummaryActivity>()
+            };
+
+            foreach (var a in upperbodydata)
+            {
+                SummaryData.UpperBody.Add(a.tb.Value);
+            }
+
+            foreach (var a in lowerbodydata)
+            {
+                SummaryData.LowerBody.Add(a.tb.Value);
+            }
+
+            foreach (var a in activitydata)
+            {
+                SummaryActivity data = new SummaryActivity()
+                {
+                    ExerciseMachineValue = a.em.Type,
+                    Reps = a.act.Reps,
+                    Weights = a.act.Weights,
+                    Sets = a.act.Sets,
+                    Other = a.act.Other,
+                    BodyHalf = a.bh.Value,
+                    BodyPartTarget = a.tb.Value
+                };
+                SummaryData.SActivity.Add(data);
+            }
+
+            return Json(SummaryData, JsonRequestBehavior.AllowGet);
+        }
 
         public ActionResult Activity()
         {
@@ -123,9 +176,8 @@ namespace GymPanzee.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Summary()
         {
-            ViewBag.Message = "Your contact page.";
 
             return View();
         }

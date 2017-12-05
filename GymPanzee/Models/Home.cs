@@ -25,4 +25,21 @@ namespace GymPanzee.Models
         public int? Sets { get; set; }
     }
 
+    public class Summary
+    {
+        public List<string> UpperBody { get; set; }
+        public List<string> LowerBody { get; set; }
+        public List<SummaryActivity> SActivity {get; set;}
+    }
+
+    public class SummaryActivity
+    {
+        public string ExerciseMachineValue { get; set; }
+        public int? Reps { get; set; }
+        public int? Weights { get; set; }
+        public int? Sets { get; set; }
+        public string Other { get; set; }
+        public string BodyHalf { get; set; }
+        public string BodyPartTarget { get; set; }
+    }
 }
