@@ -2,33 +2,100 @@
     ViewBag.Title = "Summary";
 }
 <script src="https://apis.google.com/js/platform.js" async defer></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 <meta name="google-signin-client_id" content="735833674115-8utnfgiuqhpsnf4gt5mtp06okdkr324g.apps.googleusercontent.com">
 <style>
     body {
         background-image: url("/Content/Image/pattern-bg.png");
     }
 </style>
-<script>
-    $(document).ready(function () {
-        $.ajax({
-            url: "/Home/SummaryInformation",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            async: false,
-            type: "POST",
-            data: "data",
-            success: function (json) {
-                console.log(json);
-            },
-            error: function () {
-                console.log("ERROR");
-            }
-        });
-    });
 
-</script>
 <body>
     <div class="container">
-
+        <canvas id="bodyhalfchart"></canvas>
+        <canvas id="upperbody"></canvas>
     </div>
 </body>
+<script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "/Home/SummaryInformation",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                type: "POST",
+                data: "data",
+                success: function (json) {
+                    console.log(json);
+                    var ctx = document.getElementById("bodyhalfchart").getContext('2d');
+                    var piechartdata = {
+                        type: 'pie',
+                        data: {
+                            datasets: [{
+                                data: [],
+                                backgroundColor: [
+                                    'rgb(235, 204, 255, 1)',
+                                    'rgb(115, 14, 222, 1)',
+                                ],
+                            }],
+                            labels: [
+                                "Upper Body",
+                                "Lower Body",
+                            ]
+                        },
+                        options: {
+                            responsive: false
+                        }
+                    };
+                    for (x = 0; x < json.SActivity.length; x++)
+                    {
+                        if (json.SActivity[x].BodyHalf == "Upper")
+                        {
+                            piechartdata.data.datasets[0].data[0] = x + 1;
+                        }
+                        if (json.SActivity[x].BodyHalf == "Lower") {
+                            piechartdata.data.datasets[0].data[1] = x + 1;
+                        }
+                    }
+                    var myChart = new Chart(ctx, piechartdata);
+                },
+                error: function () {
+                    console.log("ERROR");
+                }
+            });
+    });
+
+    var radarcanvas = document.getElementById("upperbody").getContext('2d');
+    var upperbodyradardata = {
+        type: 'radar',
+        data: {
+            labels: ["Biceps", "Triceps", "Chest","Back","Abs"],
+            datasets: [{
+                label: "UpperBody",
+                backgroundColor: 'rgb(115, 14, 222, 1)',
+                borderColor: 'rgb(115, 14, 222, 1)',
+                pointBackgroundColor: 'rgb(115, 14, 222, 1)',
+                data: [1,2,3,3,3]
+            }],
+        },
+        options: {
+            responsive: false,
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'UpperBody'
+            },
+            scale: {
+                ticks: {
+                    beginAtZero: true
+                }
+            }
+        }
+    };
+    var radarchartdisplay = new Chart(radarcanvas, upperbodyradardata);
+</script>
