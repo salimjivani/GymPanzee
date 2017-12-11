@@ -14,7 +14,7 @@
 </style>
 
 <body>
-    <div class="container">
+    <div class="container" align="center">
         <canvas id="bodyhalfchart"></canvas>
         <canvas id="upperbody"></canvas>
     </div>
@@ -30,6 +30,8 @@
                 data: "data",
                 success: function (json) {
                     console.log(json);
+                    
+                    //piechart
                     var ctx = document.getElementById("bodyhalfchart").getContext('2d');
                     var piechartdata = {
                         type: 'pie',
@@ -61,41 +63,57 @@
                         }
                     }
                     var myChart = new Chart(ctx, piechartdata);
+
+                    //UpperBody Radar Chart
+                    var radarcanvas = document.getElementById("upperbody").getContext('2d');
+                    var upperbodyradardata = {
+                        type: 'radar',
+                        data: {
+                            labels: [],
+                            datasets: [{
+                                label: "Frequency",
+                                backgroundColor: 'rgb(115, 14, 222, 1)',
+                                borderColor: 'rgb(115, 14, 222, 1)',
+                                pointBackgroundColor: 'rgb(115, 14, 222, 1)',
+                                data: []
+                            }],
+                        },
+                        options: {
+                            responsive: false,
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: 'UpperBody'
+                            },
+                            scale: {
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    };
+                    for (x = 0; x < json.UpperBody.length; x++)
+                    {
+                        upperbodyradardata.data.labels[x] = json.UpperBody[x];
+                        upperbodyradardata.data.datasets[0].data[x] = 0;
+                        var counter = 0;
+                        for (y = 0; y < json.SActivity.length; y++)
+                        {
+                            if (json.SActivity[y].BodyPartTarget == json.UpperBody[x])
+                            {
+                                counter += 1;
+                            }
+                        }
+                        upperbodyradardata.data.datasets[0].data[x] = counter;
+                    }
+                    var radarchartdisplay = new Chart(radarcanvas, upperbodyradardata);
+
                 },
                 error: function () {
                     console.log("ERROR");
                 }
             });
     });
-
-    var radarcanvas = document.getElementById("upperbody").getContext('2d');
-    var upperbodyradardata = {
-        type: 'radar',
-        data: {
-            labels: ["Biceps", "Triceps", "Chest","Back","Abs"],
-            datasets: [{
-                label: "UpperBody",
-                backgroundColor: 'rgb(115, 14, 222, 1)',
-                borderColor: 'rgb(115, 14, 222, 1)',
-                pointBackgroundColor: 'rgb(115, 14, 222, 1)',
-                data: [1,2,3,3,3]
-            }],
-        },
-        options: {
-            responsive: false,
-            legend: {
-                position: 'top',
-            },
-            title: {
-                display: true,
-                text: 'UpperBody'
-            },
-            scale: {
-                ticks: {
-                    beginAtZero: true
-                }
-            }
-        }
-    };
-    var radarchartdisplay = new Chart(radarcanvas, upperbodyradardata);
 </script>
