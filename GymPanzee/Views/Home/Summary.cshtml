@@ -7,6 +7,21 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 <meta name="google-signin-client_id" content="735833674115-8utnfgiuqhpsnf4gt5mtp06okdkr324g.apps.googleusercontent.com">
+<script>
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    var userid = getParameterByName('userid');
+    
+
+</script>
 <style>
     body {
         background-image: url("/Content/Image/pattern-bg.png");
@@ -17,6 +32,7 @@
     <div class="container" align="center">
         <canvas id="bodyhalfchart"></canvas>
         <canvas id="upperbody"></canvas>
+        <canvas id="lowerbody"></canvas>
     </div>
 </body>
 <script>
@@ -27,7 +43,7 @@
                 dataType: "json",
                 async: false,
                 type: "POST",
-                data: "data",
+                data: JSON.stringify({ userid: userid  }),
                 success: function (json) {
                     console.log(json);
                     
@@ -37,7 +53,7 @@
                         type: 'pie',
                         data: {
                             datasets: [{
-                                data: [],
+                                data: [0,0],
                                 backgroundColor: [
                                     'rgb(235, 204, 255, 1)',
                                     'rgb(115, 14, 222, 1)',
@@ -56,10 +72,12 @@
                     {
                         if (json.SActivity[x].BodyHalf == "Upper")
                         {
-                            piechartdata.data.datasets[0].data[0] = x + 1;
+                            piechartdata.data.datasets[0].data[0] += 1;
                         }
-                        if (json.SActivity[x].BodyHalf == "Lower") {
-                            piechartdata.data.datasets[0].data[1] = x + 1;
+                        var lowercounter = 0;
+                        if (json.SActivity[x].BodyHalf == "Lower")
+                        {
+                            piechartdata.data.datasets[0].data[1] += 1;
                         }
                     }
                     var myChart = new Chart(ctx, piechartdata);
@@ -109,6 +127,49 @@
                         upperbodyradardata.data.datasets[0].data[x] = counter;
                     }
                     var radarchartdisplay = new Chart(radarcanvas, upperbodyradardata);
+
+                    //LowerBody Radar Chart
+                    var lowerradarcanvas = document.getElementById("lowerbody").getContext('2d');
+                    var lowerbodyradardata = {
+                        type: 'radar',
+                        data: {
+                            labels: [],
+                            datasets: [{
+                                label: "Frequency",
+                                backgroundColor: 'rgb(115, 14, 222, 1)',
+                                borderColor: 'rgb(115, 14, 222, 1)',
+                                pointBackgroundColor: 'rgb(115, 14, 222, 1)',
+                                data: []
+                            }],
+                        },
+                        options: {
+                            responsive: false,
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: 'LowerBody'
+                            },
+                            scale: {
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    };
+                    for (x = 0; x < json.LowerBody.length; x++) {
+                        lowerbodyradardata.data.labels[x] = json.LowerBody[x];
+                        lowerbodyradardata.data.datasets[0].data[x] = 0;
+                        var counter = 0;
+                        for (y = 0; y < json.SActivity.length; y++) {
+                            if (json.SActivity[y].BodyPartTarget == json.LowerBody[x]) {
+                                counter += 1;
+                            }
+                        }
+                        lowerbodyradardata.data.datasets[0].data[x] = counter;
+                    }
+                    var lowerradarchartdisplay = new Chart(lowerradarcanvas, lowerbodyradardata);
 
                 },
                 error: function () {

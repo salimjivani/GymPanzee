@@ -115,7 +115,7 @@ namespace GymPanzee.Controllers
             return Json(Username, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult SummaryInformation()
+        public JsonResult SummaryInformation(int userid)
         {
             GympanzeeDBDataContext table = new GympanzeeDBDataContext();
 
@@ -123,6 +123,7 @@ namespace GymPanzee.Controllers
                                 join em in table.ExerciseMachines on act.ExerciseMachineID equals em.ID
                                 join tb in table.TargetBodyParts on em.TargetBodyPartID equals tb.ID
                                 join bh in table.BodyHalfs on tb.BodyHalfID equals bh.ID
+                                where act.UserID == userid
                                 select new { act, em, tb, bh }).ToList();
 
             var upperbodydata = (from tb in table.TargetBodyParts
