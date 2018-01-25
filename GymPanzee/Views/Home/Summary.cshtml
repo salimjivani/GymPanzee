@@ -90,6 +90,7 @@
                             labels: [],
                             datasets: [{
                                 label: "Frequency",
+                                fill: true,
                                 backgroundColor: 'rgb(115, 14, 222, 1)',
                                 borderColor: 'rgb(115, 14, 222, 1)',
                                 pointBackgroundColor: 'rgb(115, 14, 222, 1)',
@@ -112,6 +113,19 @@
                             }
                         }
                     };
+
+                    //Upper Body Data Set
+                    var upperbodydataset = [];
+                    var upperbodydatareal = [];
+                    for (x = 0; x < json.SActivity.length; x++)
+                    {
+                        if (json.SActivity[x].BodyHalf == "Upper")
+                        {
+                            upperbodydataset[x] = json.SActivity[x].BodyPartTarget;
+                        }
+                    }
+                    console.log(upperbodydataset);
+
                     for (x = 0; x < json.UpperBody.length; x++)
                     {
                         upperbodyradardata.data.labels[x] = json.UpperBody[x];
