@@ -19,6 +19,7 @@ namespace GymPanzee.Controllers
         [HttpPost]
         public JsonResult ExerciseMachines(int exercisemachineid)
         {
+
             GympanzeeDBDataContext userstable = new GympanzeeDBDataContext();
 
             var exercisecategory = (from em in userstable.ExerciseMachines
@@ -101,6 +102,11 @@ namespace GymPanzee.Controllers
         [HttpPost]
         public JsonResult GetUserID(string useremail)
         {
+            HttpCookie gymuser = new HttpCookie("userid", "2");
+            Response.Cookies.Add(gymuser);
+            gymuser.Expires = DateTime.Now.AddHours(1);
+
+
             GympanzeeDBDataContext Table = new GympanzeeDBDataContext();
 
             Table.Login(useremail);
