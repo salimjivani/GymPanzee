@@ -21,14 +21,14 @@
     //Login Logic
     var usernameurl = getParameterByName('username');
 
-    if (username || usernameurl == null) {
-        window.location.href = "../?exercisemachineid=" + exercisemachineid + "&facility=" + facilityid;
-    } else if (!!usernameurl)
-    {
-        $.cookie('username', usernameurl, { expires: 10});
-    }
+    //if (username || usernameurl == null) {
+    //    window.location.href = "../?exercisemachineid=" + exercisemachineid + "&facility=" + facilityid;
+    //} else if (!!usernameurl)
+    //{
+    //    $.cookie('username', usernameurl, { expires: 10});
+    //}
 
-    var username = $.cookie('username');
+    //var username = $.cookie('username');
 
 
     var excercises = {};

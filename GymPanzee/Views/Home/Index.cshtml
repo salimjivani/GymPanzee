@@ -23,7 +23,7 @@
         login.profileid = profile.getId();
         login.name = profile.getName();
         login.image = profile.getImageUrl();
-        console.log(login);
+        //console.log(login);
 
         $.ajax({
             url: "/Home/GetUserID",
@@ -32,9 +32,8 @@
             async: false,
             type: "POST",
             data: JSON.stringify({ useremail: login.username }),
-            //data: JSON.stringify({ useremail: "ssherali.sana@gmail.com" }),
             success: function (json) {
-                console.log(json);
+                //console.log(json);
 
                 //Redirects User if they have already logged in
                 if (login.name && facilityid) {

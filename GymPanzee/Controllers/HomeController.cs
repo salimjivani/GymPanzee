@@ -11,9 +11,37 @@ namespace GymPanzee.Controllers
 {
     public class HomeController : Controller
     {
+        //public void InserttheActivity()
+        //{
+        //    Activity act = new Activity();
+        //    act.Date = DateTime.Now;
+        //    act.UserID = 1;
+        //    act.FacilityID = 1;
+        //    act.ExerciseMachineID = 18;
+        //    act.Reps = 3;
+        //    act.Weights = 1999;
+        //    act.Time = 5;
+        //    act.Sets = 10;
+        //    act.Other = "testing";
+        //    GympanzeeDBDataContext DB = new GympanzeeDBDataContext();
+        //    DB.Activities.InsertOnSubmit(act);
+        //    DB.SubmitChanges();
+        //    Console.WriteLine("worked");
+        //}
+
         public ActionResult Index()
         {
-            return View();
+            if (Request.Cookies["username"] != null && Request.QueryString["exercisemachineid"] != null)
+            {
+                //InserttheActivity();
+                return RedirectToAction("Activity", new { exercisemachineid = Request.QueryString["exercisemachineid"], username = Request.Cookies["username"].Value, facility = 1 });
+            }
+            else
+            {
+               //InserttheActivity();
+                return View();
+            }
+            
         }
 
         [HttpPost]
@@ -66,7 +94,8 @@ namespace GymPanzee.Controllers
         {
             GympanzeeDBDataContext insertactivitiesDB = new GympanzeeDBDataContext();
 
-            insertactivitiesDB.insertactivity(model.UserID, model.FacilityID, model.ExerciseMachineID, model.Reps, model.Weights, model.Time, model.Other, model.Sets);
+            insertactivitiesDB.insertactivity(model.UserID, model.FacilityID, model.ExerciseMachineID, model.Reps, model.Weights, model.Time, model.Other, model.Sets, "");
+
 
             return Json("saved", JsonRequestBehavior.AllowGet);
         }
@@ -96,6 +125,7 @@ namespace GymPanzee.Controllers
                 PrevActivity.Add(PreviousActivityjson);
             }
             
+
             return Json(PrevActivity, JsonRequestBehavior.AllowGet);
         }
 
@@ -179,7 +209,11 @@ namespace GymPanzee.Controllers
 
         public ActionResult Activity()
         {
-
+            var username = Request.QueryString["username"];
+            HttpCookie cookie = new HttpCookie("username");
+            cookie.Value = username;
+            cookie.Expires = DateTime.Now.AddHours(1);
+            Response.Cookies.Add(cookie);
             return View();
         }
 

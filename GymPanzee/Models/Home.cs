@@ -23,6 +23,7 @@ namespace GymPanzee.Models
         public string Other { get; set; }
         public string Date { get; set; }
         public int? Sets { get; set; }
+        public string Notes { get; set; }
     }
 
     public class Summary

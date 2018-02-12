@@ -95,6 +95,7 @@
     <Parameter Name="time" Type="System.Int32" DbType="Int" />
     <Parameter Name="other" Type="System.String" DbType="VarChar(MAX)" />
     <Parameter Name="sets" Type="System.Int32" DbType="Int" />
+    <Parameter Name="notes" Type="System.String" DbType="VarChar(MAX)" />
     <Return Type="System.Int32" />
   </Function>
 </Database>

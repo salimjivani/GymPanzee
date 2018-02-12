@@ -142,7 +142,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\GympanzeeDB.designer.cs">
+    <Compile Include="GympanzeeDB.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>GympanzeeDB.dbml</DependentUpon>
@@ -167,12 +167,12 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Controllers\GympanzeeDB.dbml">
+    <Content Include="GympanzeeDB.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>GympanzeeDB.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Controllers\GympanzeeDB.dbml.layout">
+    <None Include="GympanzeeDB.dbml.layout">
       <DependentUpon>GympanzeeDB.dbml</DependentUpon>
     </None>
     <None Include="Properties\PublishProfiles\GymPanzee20170902080932 - Web Deploy.pubxml" />

@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GymPanzee.Controllers
+namespace GymPanzee
 {
 	using System.Data.Linq;
 	using System.Data.Linq.Mapping;
@@ -165,9 +165,9 @@ namespace GymPanzee.Controllers
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.insertactivity")]
-		public int insertactivity([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> userid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> facilityid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> exercisemachineid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> reps, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> weights, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> time, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(MAX)")] string other, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> sets)
+		public int insertactivity([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> userid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> facilityid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> exercisemachineid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> reps, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> weights, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> time, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(MAX)")] string other, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> sets, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(MAX)")] string notes)
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userid, facilityid, exercisemachineid, reps, weights, time, other, sets);
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userid, facilityid, exercisemachineid, reps, weights, time, other, sets, notes);
 			return ((int)(result.ReturnValue));
 		}
 	}
