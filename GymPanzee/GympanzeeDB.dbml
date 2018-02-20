@@ -1,22 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="GymPanZee" Class="GympanzeeDBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="WebSettings" ConnectionString="Data Source=52.173.135.39;Initial Catalog=GymPanZee;Persist Security Info=True;User ID=ClientBilling" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="GymPanZeeConnectionString1" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.Activity" Member="Activities">
-    <Type Name="Activity">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="UserID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="FacilityID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="ExerciseMachineID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Reps" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Weights" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Time" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Other" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="Sets" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="ExerciseMachine_Activity" Member="ExerciseMachine" ThisKey="ExerciseMachineID" OtherKey="ID" Type="ExerciseMachine" IsForeignKey="true" />
-      <Association Name="Facility_Activity" Member="Facility" ThisKey="FacilityID" OtherKey="ID" Type="Facility" IsForeignKey="true" />
-      <Association Name="User_Activity" Member="User" ThisKey="UserID" OtherKey="ID" Type="User" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.BodyHalf" Member="BodyHalfs">
     <Type Name="BodyHalf">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -75,6 +58,24 @@
       <Column Name="Username" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
       <Column Name="Password" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
       <Association Name="User_Activity" Member="Activities" ThisKey="ID" OtherKey="UserID" Type="Activity" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Activity" Member="Activities">
+    <Type Name="Activity">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FacilityID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ExerciseMachineID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Reps" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Weights" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Time" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Other" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Sets" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Notes" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Association Name="ExerciseMachine_Activity" Member="ExerciseMachine" ThisKey="ExerciseMachineID" OtherKey="ID" Type="ExerciseMachine" IsForeignKey="true" />
+      <Association Name="Facility_Activity" Member="Facility" ThisKey="FacilityID" OtherKey="ID" Type="Facility" IsForeignKey="true" />
+      <Association Name="User_Activity" Member="User" ThisKey="UserID" OtherKey="ID" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
   <Function Name="dbo.insertUsers" Method="insertUsers">

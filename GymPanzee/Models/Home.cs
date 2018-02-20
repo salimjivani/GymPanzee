@@ -43,4 +43,14 @@ namespace GymPanzee.Models
         public string BodyHalf { get; set; }
         public string BodyPartTarget { get; set; }
     }
+
+    public class ExcerciseMachineChart
+    {
+        public string label { get; set; }
+        public string value { get; set; }
+        public string tooltext { get; set; }
+        public string anchorBorderColor { get; set; }
+        public string anchorBgColor { get; set; }
+        public string anchorHoverScale { get; set; }
+    }
 }
