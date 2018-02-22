@@ -105,28 +105,27 @@ namespace GymPanzee.Controllers
         {
             GympanzeeDBDataContext Pastactivity = new GympanzeeDBDataContext();
 
-            var ActivityDataSet = (from a in Pastactivity.Activities where a.UserID == User && a.ExerciseMachineID == Machine orderby a.Date descending select new { a.UserID, a.ExerciseMachineID, a.FacilityID, a.Reps, a.Weights, a.Time, a.Other, a.Date, a.Sets}).ToList();
+            var ActivityDataSet = (from a in Pastactivity.Activities
+                                   where a.UserID == User && a.ExerciseMachineID == Machine
+                                   orderby a.Date ascending
+                                   select new { a.UserID, a.ExerciseMachineID, a.FacilityID, a.Reps, a.Weights, a.Time, a.Other, a.Date, a.Sets}).ToList();
 
-            var PrevActivity = new List<Activity>();
+            var exercisemachinechartlist = new List<ExcerciseMachineChartModel>();
+            var timelist = ActivityDataSet.Select(x => x.Date.Date).Distinct().ToList();
 
-            foreach (var a in ActivityDataSet)
+            foreach (var a in timelist)
             {
-                Activity PreviousActivityjson = new Activity()
+                ExcerciseMachineChartModel exercisemachineobj = new ExcerciseMachineChartModel()
                 {
-                    Other = a.Other,
-                    ExerciseMachineID = a.ExerciseMachineID,
-                    UserID = a.UserID,
-                    Reps = a.Reps,
-                    Weights = a.Weights,
-                    Time = a.Time,
-                    Date = a.Date,
-                    Sets = a.Sets
-                };
-                PrevActivity.Add(PreviousActivityjson);
-            }
-            
+                    label = a.Date.ToString("MM/dd/yyyy"),
+                    value = (Convert.ToInt32(ActivityDataSet.Where(x => x.Date.Date == a).Sum(x => x.Reps) * Convert.ToInt32(ActivityDataSet.Where(x => x.Date.Date == a).Sum(x => x.Weights))) * Convert.ToInt32(ActivityDataSet.Where(x => x.Date.Date == a).Sum(x => x.Sets))),
+                    tooltext = "Avg Reps: " + Convert.ToInt32(ActivityDataSet.Where(x => x.Date.Date == a).Average(x => x.Reps)) + "{br}" + "Avg Weights: " + Convert.ToInt32(ActivityDataSet.Where(x => x.Date.Date == a).Average(x => x.Weights)) + "{br}" + "Avg Sets: " + Convert.ToInt32(ActivityDataSet.Where(x => x.Date.Date == a).Average(x => x.Sets))
 
-            return Json(PrevActivity, JsonRequestBehavior.AllowGet);
+                };
+                exercisemachinechartlist.Add(exercisemachineobj);
+            }
+
+            return Json(exercisemachinechartlist, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

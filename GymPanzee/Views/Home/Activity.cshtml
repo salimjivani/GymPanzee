@@ -80,12 +80,12 @@
                 <td><input type="number" id="weights" name="weights" /></td>
             </tr>
             <tr>
-                <td>Sets</td>
-                <td><input type="number" id="sets" name="sets" /></td>
-            </tr>
-            <tr>
                 <td>Reps</td>
                 <td><input type="number" id="reps" name="reps" /></td>
+            </tr>
+            <tr>
+                <td>Sets</td>
+                <td><input type="number" id="sets" name="sets" /></td>
             </tr>
             <tr>
                 <td>Time</td>
@@ -146,35 +146,6 @@
                     success: function (json) {
                         previousworkout = json;
                         console.log(json);
-                        var testingdata =
-                            [{
-                                "label": "Q1",
-                                "value": Math.floor((Math.random() * 10) + 1),
-                                "tooltext": "Quarter 1{br}Total Sale: $195K{br}Rank: 1",
-                                "anchorBorderColor": "#ff9900",
-                                "anchorBgColor": "#ff9900",
-                                "anchorHoverScale": 1
-                            }, {
-                                "label": "Q2",
-                                "value": Math.floor((Math.random() * 10) + 1),
-                                "tooltext": "Reps: 10{br}Weights: 100{br}Sets: 3"
-                            }, {
-                                "label": "Q2",
-                                "value": Math.floor((Math.random() * 10) + 1),
-                                "tooltext": "Reps: 10{br}Weights: 100{br}Sets: 3"
-                            }, {
-                                "label": "Q2",
-                                "value": Math.floor((Math.random() * 10) + 1),
-                                "tooltext": "Reps: 10{br}Weights: 100{br}Sets: 3"
-                            }, {
-                                "label": "Q2",
-                                "value": Math.floor((Math.random() * 10) + 1),
-                                "tooltext": "Reps: 10{br}Weights: 100{br}Sets: 3"
-                            }, {
-                                "label": "Q2",
-                                "value": Math.floor((Math.random() * 10) + 1),
-                                "tooltext": "Reps: 10{br}Weights: 100{br}Sets: 3"
-                            }];
 
                         FusionCharts.ready(function () {
                             var fusioncharts = new FusionCharts({
@@ -187,7 +158,7 @@
                                 dataFormat: 'json',
                                 dataSource: {
                                     "chart": {
-                                        "caption": "Historical Workout",
+                                        
                                         //"subcaption": "For last year",
                                         "xaxisname": "Dates",
                                         "yaxisname": "Total Weights",
@@ -198,9 +169,10 @@
                                         "anchorBorderThickness": "4",
                                         "anchorRadius": "10",
                                         "canvasBgAlpha": "0",
-                                        "bgAlpha": "0"
+                                        "bgAlpha": "0",
+                                        "paletteColors": "#8a2be2"
                                     },
-                                    "data": testingdata
+                                    "data": json
                                 }
                             });
                             fusioncharts.render("charts");
@@ -250,35 +222,6 @@
                 data: JSON.stringify(jsonactivity),
                 success: function (json) {
                     previousworkout = json;
-                    var testingdata =
-                        [{
-                            "label": "Q1",
-                            "value": Math.floor((Math.random() * 10) + 1),
-                            "tooltext": "Quarter 1{br}Total Sale: $195K{br}Rank: 1",
-                            "anchorBorderColor": "#ff9900",
-                            "anchorBgColor": "#ff9900",
-                            "anchorHoverScale": 1
-                        }, {
-                            "label": "Q2",
-                            "value": Math.floor((Math.random() * 10) + 1),
-                            "tooltext": "Reps: 10{br}Weights: 100{br}Sets: 3"
-                        }, {
-                            "label": "Q2",
-                            "value": Math.floor((Math.random() * 10) + 1),
-                            "tooltext": "Reps: 10{br}Weights: 100{br}Sets: 3"
-                        }, {
-                            "label": "Q2",
-                            "value": Math.floor((Math.random() * 10) + 1),
-                            "tooltext": "Reps: 10{br}Weights: 100{br}Sets: 3"
-                        }, {
-                            "label": "Q2",
-                            "value": Math.floor((Math.random() * 10) + 1),
-                            "tooltext": "Reps: 10{br}Weights: 100{br}Sets: 3"
-                        }, {
-                            "label": "Q2",
-                            "value": Math.floor((Math.random() * 10) + 1),
-                            "tooltext": "Reps: 10{br}Weights: 100{br}Sets: 3"
-                        }];
 
                     FusionCharts.ready(function () {
                         var fusioncharts = new FusionCharts({
@@ -302,9 +245,10 @@
                                     "anchorBorderThickness": "4",
                                     "anchorRadius": "10",
                                     "canvasBgAlpha": "0",
-                                    "bgAlpha": "0"
+                                    "bgAlpha": "0",
+                                    "paletteColors": "#8a2be2"
                                 },
-                                "data": testingdata
+                                "data": json
                             }
                         });
                         fusioncharts.render("charts");

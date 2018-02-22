@@ -12,20 +12,6 @@ namespace GymPanzee.Models
         public string Typejson { get; set; }
     }
 
-    public class Activity
-    {
-        public int? Userid { get; set; }
-        public int? FacilityID { get; set; }
-        public int? ExerciseMachineID { get; set; }
-        public int? Reps { get; set; }
-        public int? Weights { get; set; }
-        public int? Time { get; set; }
-        public string Other { get; set; }
-        public string Date { get; set; }
-        public int? Sets { get; set; }
-        public string Notes { get; set; }
-    }
-
     public class Summary
     {
         public List<string> UpperBody { get; set; }
@@ -44,13 +30,13 @@ namespace GymPanzee.Models
         public string BodyPartTarget { get; set; }
     }
 
-    public class ExcerciseMachineChart
+    public class ExcerciseMachineChartModel
     {
         public string label { get; set; }
-        public string value { get; set; }
+        public int value { get; set; }
         public string tooltext { get; set; }
-        public string anchorBorderColor { get; set; }
-        public string anchorBgColor { get; set; }
-        public string anchorHoverScale { get; set; }
+        //public string anchorBorderColor { get; set; }
+        //public string anchorBgColor { get; set; }
+        //public string anchorHoverScale { get; set; }
     }
 }
