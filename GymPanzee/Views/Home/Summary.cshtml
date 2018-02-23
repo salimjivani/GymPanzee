@@ -49,7 +49,15 @@
                 data: JSON.stringify({ userid: userid  }),
                 success: function (json) {
                     console.log(json);
-                    
+
+                    var testing = [{
+                        "label": "Lower Body",
+                        "value": "32647479"
+                    }, {
+                        "label": "Upper Body",
+                        "value": "22100932"
+                    }];
+
                     //piechart
                     FusionCharts.ready(function () {
                         var shareChart = new FusionCharts({
@@ -69,17 +77,11 @@
                                     "alignCaptionWithCanvas": "0",
                                     "useDataPlotColorForLabels": "1",
                                     "theme": "fint",
-                                    "paletteColors": "#0372AB,#FF5904",
+                                    "paletteColors": "#8a2be2,#FF5904",
                                     "canvasBgAlpha": "0",
                                     "bgAlpha": 0,
                                 },
-                                "data": [{
-                                    "label": "Lower Body",
-                                    "value": "32647479"
-                                }, {
-                                    "label": "Upper Body",
-                                    "value": "22100932"
-                                }]
+                                "data": json
                             }
                         }).render();
                     });

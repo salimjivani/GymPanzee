@@ -28,7 +28,7 @@ namespace GymPanzee.Controllers
             DB.SubmitChanges();
             Console.WriteLine("worked");
         }
-
+       
         public ActionResult Index()
         {
             if (Request.Cookies["username"] != null && Request.QueryString["exercisemachineid"] != null)
@@ -203,8 +203,20 @@ namespace GymPanzee.Controllers
                 SummaryData.SActivity.Add(data);
             }
 
-            return Json(SummaryData, JsonRequestBehavior.AllowGet);
-        }
+            var bodyhalfs = activitydata.Select(x => x.bh.Value).Distinct();
+            var piechartlist = new List<BodyHalfPieChart>();
+            foreach (var a in bodyhalfs)
+            {
+                BodyHalfPieChart piechartobj = new BodyHalfPieChart
+                {
+                    label = a,
+                    value = activitydata.Where(x => x.bh.Value == a).Count()
+                };
+                piechartlist.Add(piechartobj);
+            }
+
+            return Json(piechartlist, JsonRequestBehavior.AllowGet);
+       }
 
         public ActionResult Activity()
         {

@@ -39,4 +39,10 @@ namespace GymPanzee.Models
         //public string anchorBgColor { get; set; }
         //public string anchorHoverScale { get; set; }
     }
+
+    public class BodyHalfPieChart
+    {
+        public string label { get; set; }
+        public int value { get; set; }
+    }
 }
