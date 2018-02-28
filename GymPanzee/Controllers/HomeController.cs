@@ -203,6 +203,7 @@ namespace GymPanzee.Controllers
                 SummaryData.SActivity.Add(data);
             }
 
+            //piechart
             var bodyhalfs = activitydata.Select(x => x.bh.Value).Distinct();
             var piechartlist = new List<BodyHalfPieChart>();
             foreach (var a in bodyhalfs)
@@ -215,7 +216,69 @@ namespace GymPanzee.Controllers
                 piechartlist.Add(piechartobj);
             }
 
-            return Json(piechartlist, JsonRequestBehavior.AllowGet);
+            //summary
+            var summarycharts = new ChartSummary()
+            {
+                upperbodylabel = new List<TargetBodyPartRadarChart>(),
+                upperbodycount = new List<TargetBodyPartCount>(),
+                lowerbodylabel = new List<TargetBodyPartRadarChart>(),
+                lowerbodycount = new List<TargetBodyPartCount>()
+            };
+            summarycharts.piechart = piechartlist;
+            
+
+            //upperbody
+            foreach (var a in upperbodydata)
+            {
+                int count = 0;
+                foreach (var b in activitydata)
+                {
+                    if (b.tb.Value == a.tb.Value)
+                    {
+                        count++;
+                    }
+                }
+                TargetBodyPartCount frequency = new TargetBodyPartCount
+                {
+                    value = count.ToString()
+                };
+
+                summarycharts.upperbodycount.Add(frequency);
+
+                TargetBodyPartRadarChart upperbodylist = new TargetBodyPartRadarChart
+                {
+                    label = a.tb.Value
+                };
+                summarycharts.upperbodylabel.Add(upperbodylist);
+            }
+
+
+            //lowerbody
+            foreach (var a in lowerbodydata)
+            {
+                int count = 0;
+                foreach (var b in activitydata)
+                {
+                    if (b.tb.Value == a.tb.Value)
+                    {
+                        count++;
+                    }
+                }
+                TargetBodyPartCount frequency = new TargetBodyPartCount
+                {
+                    value = count.ToString()
+                };
+
+                summarycharts.lowerbodycount.Add(frequency);
+
+                TargetBodyPartRadarChart lowerbodylist = new TargetBodyPartRadarChart
+                {
+                    label = a.tb.Value
+                };
+                summarycharts.lowerbodylabel.Add(lowerbodylist);
+            }
+
+            return Json(summarycharts, JsonRequestBehavior.AllowGet);
        }
 
         public ActionResult Activity()

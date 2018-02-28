@@ -69,7 +69,7 @@
                             containerBackgroundOpacity: "0",
                             dataSource: {
                                 "chart": {
-                                    "caption": "Upper vs Lower",
+                                    "caption": "Upperbody vs Lowerbody",
                                     "plottooltext": "<div id='nameDiv'><b>$label: </b>$percentValue<br/></div>",
                                     "showLegend": "0",
                                     "legendPosition": "right",
@@ -81,7 +81,7 @@
                                     "canvasBgAlpha": "0",
                                     "bgAlpha": 0,
                                 },
-                                "data": json
+                                "data": json.piechart
                             }
                         }).render();
                     });
@@ -97,8 +97,7 @@
                             containerBackgroundOpacity: "0",
                             dataSource: {
                                 "chart": {
-                                    "caption": "Passenger Count for Port Miami",
-                                    "subCaption": "2015 vs 2016",
+                                    "caption": "UpperBody Distribution",
                                     "theme": "fint",
                                     "showlimits": "0",
                                     "showDivLineValues": "0",
@@ -108,87 +107,12 @@
 
                                 },
                                 "categories": [{
-                                    "category": [{
-                                        "label": "Jan"
-                                    }, {
-                                        "label": "Feb"
-                                    }, {
-                                        "label": "Mar"
-                                    }, {
-                                        "label": "Apr"
-                                    }, {
-                                        "label": "May"
-                                    }, {
-                                        "label": "Jun"
-                                    }, {
-                                        "label": "Jul"
-                                    }, {
-                                        "label": "Aug"
-                                    }, {
-                                        "label": "Sep"
-                                    }, {
-                                        "label": "Oct"
-                                    }, {
-                                        "label": "Nov"
-                                    }, {
-                                        "label": "Dec"
-                                    }]
+                                    "category": json.upperbodylabel
                                 }],
                                 "dataset": [{
-                                    "seriesname": "2015",
+                                    "seriesname": "Frequency",
                                     "alpha": "20",
-                                    "data": [{
-                                        "value": "551,990"
-                                    }, {
-                                        "value": "513,513"
-                                    }, {
-                                        "value": "538,780"
-                                    }, {
-                                        "value": "419,562"
-                                    }, {
-                                        "value": "332,167"
-                                    }, {
-                                        "value": "297,956"
-                                    }, {
-                                        "value": "311,760"
-                                    }, {
-                                        "value": "330,824"
-                                    }, {
-                                        "value": "265,815"
-                                    }, {
-                                        "value": "327,474"
-                                    }, {
-                                        "value": "468,621"
-                                    }, {
-                                        "value": "489,428"
-                                    }]
-                                }, {
-                                    "seriesname": "2016",
-                                    "data": [{
-                                        "value": "531,886"
-                                    }, {
-                                        "value": "434,868"
-                                    }, {
-                                        "value": "485,418"
-                                    }, {
-                                        "value": "462,479"
-                                    }, {
-                                        "value": "361,541"
-                                    }, {
-                                        "value": "351,261"
-                                    }, {
-                                        "value": "403,836"
-                                    }, {
-                                        "value": "334,281"
-                                    }, {
-                                        "value": "329,221"
-                                    }, {
-                                        "value": "378,278"
-                                    }, {
-                                        "value": "454,534"
-                                    }, {
-                                        "value": "573,530"
-                                    }]
+                                    "data": json.upperbodycount
                                 }]
                             }
                         }).render();
@@ -205,97 +129,22 @@
                             containerBackgroundOpacity: "0",
                             dataSource: {
                                 "chart": {
-                                    "caption": "Passenger Count for Port Miami",
-                                    "subCaption": "2015 vs 2016",
+                                    "caption": "Lowerbody distribution",
                                     "theme": "fint",
                                     "showlimits": "0",
                                     "showDivLineValues": "0",
                                     "anchorRadius": "2",
                                     "canvasBgAlpha": "0",
                                     "bgAlpha": 0,
+
                                 },
                                 "categories": [{
-                                    "category": [{
-                                        "label": "Jan"
-                                    }, {
-                                        "label": "Feb"
-                                    }, {
-                                        "label": "Mar"
-                                    }, {
-                                        "label": "Apr"
-                                    }, {
-                                        "label": "May"
-                                    }, {
-                                        "label": "Jun"
-                                    }, {
-                                        "label": "Jul"
-                                    }, {
-                                        "label": "Aug"
-                                    }, {
-                                        "label": "Sep"
-                                    }, {
-                                        "label": "Oct"
-                                    }, {
-                                        "label": "Nov"
-                                    }, {
-                                        "label": "Dec"
-                                    }]
+                                    "category": json.lowerbodylabel
                                 }],
                                 "dataset": [{
-                                    "seriesname": "2015",
+                                    "seriesname": "Frequency",
                                     "alpha": "20",
-                                    "data": [{
-                                        "value": "551,990"
-                                    }, {
-                                        "value": "513,513"
-                                    }, {
-                                        "value": "538,780"
-                                    }, {
-                                        "value": "419,562"
-                                    }, {
-                                        "value": "332,167"
-                                    }, {
-                                        "value": "297,956"
-                                    }, {
-                                        "value": "311,760"
-                                    }, {
-                                        "value": "330,824"
-                                    }, {
-                                        "value": "265,815"
-                                    }, {
-                                        "value": "327,474"
-                                    }, {
-                                        "value": "468,621"
-                                    }, {
-                                        "value": "489,428"
-                                    }]
-                                }, {
-                                    "seriesname": "2016",
-                                    "data": [{
-                                        "value": "531,886"
-                                    }, {
-                                        "value": "434,868"
-                                    }, {
-                                        "value": "485,418"
-                                    }, {
-                                        "value": "462,479"
-                                    }, {
-                                        "value": "361,541"
-                                    }, {
-                                        "value": "351,261"
-                                    }, {
-                                        "value": "403,836"
-                                    }, {
-                                        "value": "334,281"
-                                    }, {
-                                        "value": "329,221"
-                                    }, {
-                                        "value": "378,278"
-                                    }, {
-                                        "value": "454,534"
-                                    }, {
-                                        "value": "573,530"
-                                    }]
+                                    "data": json.lowerbodycount
                                 }]
                             }
                         }).render();
